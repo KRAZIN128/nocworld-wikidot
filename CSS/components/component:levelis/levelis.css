@@ -1,0 +1,160 @@
+/*!
+ * @name: nocworld-wiki-cn - LevelIs
+ * @author: KRAZIN128
+ * @version: 1.0.0
+ * @date: 2026-04-25
+ * @credits:
+ *   感谢 QRAZIN128 提供基础代码。
+ *   本代码全部改自 nocworld.fandom.com/zh/ 中由 QRAZIN128 所创建的页面。
+ * @description:
+ *   本样式基于友站（nocworld.fandom.com/zh/）代码修改适配，
+ *   用于 nocworld-wiki-cn.wikidot.com。
+ *   在此对原站点成员的分享与互助精神表示诚挚感谢。
+ */
+@import url("./imgs.css");
+.LevelIs-css-vars {
+    --lv-background-color-start: #CDCDCD;
+    --lv-0-background-color-end: #98FB98;
+    --lv-1-background-color-end: #FFFACD;
+    --lv-2-background-color-end: #FFBF00;
+    --lv-3-background-color-end: #FF4444;
+    --lv-4-background-color-end: #8B0000;
+    --lv-5-background-color-end: #6A0DAD;
+    --lv-multiple-background-color-end: blue;
+    --lv-unknown-background-color-end: #000;
+    --lv-psy-background-color-end: #9F2B68;
+    --lv-na-background-color-end: #CDCDCD;
+    --lv-ep-background-color-end: red;
+    --lv-protected-background-color-end: #4169E1;
+    --lv-0-text-color: #FFF;
+    --lv-1-text-color: #FFF;
+    --lv-2-text-color: #FFF;
+    --lv-3-text-color: #FFF;
+    --lv-4-text-color: #FFF;
+    --lv-5-text-color: #FFF;
+    --lv-special-text-color: #fff;
+    --lv-block-color: #696969;
+    --lv-block-size: 1.012rem;
+    --lv-main-height: 7.5rem;
+}
+
+.LevelIs-border {
+    border: 4px solid #000;
+}
+
+.LevelIs-text-main {
+    margin: 0.5em;
+}
+
+.LevelIs-text-1, .LevelIs-text-2 {
+    font-size: 2em;
+    font-style: italic;
+}
+
+.LevelIs-text-1 {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.float-img {
+    float: right;
+    width: 500px;
+    height: 500px;
+    background-image: var(--lv-float-img) no-repeat center center / contain;
+}
+
+.LevelIs-main {
+    min-height: 66pt;
+    width: 100%;
+    overflow: auto;
+}
+
+.LevelIs-bg-0 { background: linear-gradient(to right, var(--lv-background-color-start),var(--lv-0-background-color-end)); }
+.LevelIs-bg-1 { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-1-background-color-end)); }
+.LevelIs-bg-2 { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-2-background-color-end)); }
+.LevelIs-bg-3 { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-3-background-color-end)); }
+.LevelIs-bg-4 { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-4-background-color-end)); }
+.LevelIs-bg-5 { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-5-background-color-end)); }
+.LevelIs-bg-Multiple { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-multiple-background-color-end)); }
+.LevelIs-bg-Unknown, .LevelIs-bg-Temporal { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-unknown-background-color-end)); }
+.LevelIs-bg-N\/A { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-na-background-color-end)); }
+.LevelIs-bg-EP { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-ep-background-color-end)); }
+.LevelIs-bg-Protected { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-protected-background-color-end)); }
+.LevelIs-bg-Psy0,
+.LevelIs-bg-Psy1,
+.LevelIs-bg-Psy2,
+.LevelIs-bg-Psy3 { background: linear-gradient(to right, var(--lv-background-color-start), var(--lv-psy-background-color-end)); }
+
+.LevelIs-lv-0 { color: var(--lv-0-text-color); }
+.LevelIs-lv-1 { color: var(--lv-1-text-color); }
+.LevelIs-lv-2 { color: var(--lv-2-text-color); }
+.LevelIs-lv-3 { color: var(--lv-3-text-color); }
+.LevelIs-lv-4 { color: var(--lv-4-text-color); }
+.LevelIs-lv-5 { color: var(--lv-5-text-color); }
+.LevelIs-lv-Multiple,
+.LevelIs-lv-Psy0,
+.LevelIs-lv-Psy1,
+.LevelIs-lv-Psy2,
+.LevelIs-lv-Psy3,
+.LevelIs-lv-Unknown,
+.LevelIs-lv-Temporal,
+.LevelIs-lv-EP,
+.LevelIs-lv-N\/A,
+.LevelIs-lv-Protected { color: var(--lv-special-text-color); }
+
+.LevelIs-content li::before {
+    content: "";
+    display: inline-block;
+    width: var(--lv-block-size);
+    height: var(--lv-block-size);
+    border: 1px solid var(--lv-block-color);
+    transform: rotate(45deg);
+    background: var(--lv-block-color);
+}
+
+.LevelIs-main li {
+    list-style: none;
+}
+
+.LevelIs-content li {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #696969;
+}
+
+.default-safety, .default-knows, .default-type { display: none; }
+.LevelIs-content span[class*="{$"] + :is(.default-safety, .default-knows, .default-type) { display: inline; }
+.LevelIs-content span[class*="{$"]  { display: none; }
+
+.level-0 .default-safety::before { content: "安全"; }
+.level-1 .default-safety::before { content: "轻度危险"; }
+.level-2 .default-safety::before { content: "中度危险"; }
+.level-3 .default-safety::before { content: "危险较大"; }
+.level-4 .default-safety::before { content: "高度危险"; }
+.level-5 .default-safety::before { content: "极度危险"; }
+.level-Temporal .default-safety::before { content: "时转"; }
+.level-Unknown .default-safety::before { content: "安全度未知"; }
+.level-Multiple .default-safety::before { content: "多重"; }
+.level-PE .default-safety::before { content: "环境危害"; }
+.level-Psy0 .default-safety::before { content: "无精神影响"; }
+.level-Psy1 .default-safety::before { content: "轻微精神影响"; }
+.level-Psy2 .default-safety::before { content: "中度精神影响"; }
+.level-Psy3 .default-safety::before { content: "高度精神影响"; }
+.level-Protected .default-safety::before { content: "不可擅自操作"; }
+
+.level-Unknown .default-knows::before { content: "未知"; }
+.level-0 .default-knows::before,
+.level-1 .default-knows::before { content: "完全已知"; }
+.level-2 .default-knows::before { content: "大部分已知"; }
+.level-Multiple .default-knows::before,
+.level-3 .default-knows::before { content: "部分已知"; }
+.level-4 .default-knows::before { content: "少量已知"; }
+.level-5 .default-knows::before { content: "未知"; }
+.level-Psy0 .default-knows::before,
+.level-Psy1 .default-knows::before,
+.level-Psy2 .default-knows::before,
+.level-Psy3 .default-knows::before { content: "信息矛盾"; }
+.level-Temporal .default-knows::before { content: "变化"; }
+.level-Protected .default-knows::before { content: "保密"; }
+
+.default-type::before { content: "U\26"; }
