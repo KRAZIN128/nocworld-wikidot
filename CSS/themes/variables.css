@@ -1,0 +1,51 @@
+:root {
+    /* ===== 主色调（灰白主题）===== */
+    --color-bg-body: 250, 250, 245;        /* #FAFAF5 米白 */
+    --color-bg-content: 255, 255, 252;     /* #FFFFFC 内容区米白 */
+    --color-bg-sidebar: 248, 248, 243;     /* #F8F8F3 */
+    
+    /* ===== 文本颜色 ===== */
+    --color-text-primary: 85, 85, 85;      /* #555555 主灰 */
+    --color-text-secondary: 128, 128, 128; /* #808080 */
+    --color-text-light: 195, 195, 195;     /* #C3C3C3 打底色 */
+    --color-text-inverse: 255, 255, 255;   /* 白字（深色背景用）*/
+    
+    /* ===== 链接颜色（访问前后一致）===== */
+    --color-link: 85, 85, 85;              /* #555555 */
+    --color-link-hover: 100, 100, 100;     /* #646464 稍深 */
+    --color-link-visited: 85, 85, 85;      /* 同未访问 */
+    
+    /* ===== 边框颜色 ===== */
+    --color-border-light: 220, 220, 215;   /* #DCDCD7 */
+    --color-border-medium: 200, 200, 195;  /* #C8C8C3 */
+    --color-border-dark: 170, 170, 165;    /* #AAAAA5 */
+    
+    /* ===== 按钮/交互 ===== */
+    --color-btn-bg: 245, 245, 240;         /* #F5F5F0 */
+    --color-btn-border: 200, 200, 195;
+    --color-btn-hover-bg: 235, 235, 230;
+    
+    /* ===== 代码块 ===== */
+    --color-code-bg: 245, 245, 242;
+    --color-code-border: 210, 210, 205;
+    --color-code-line-number-border: 200, 200, 195;
+    
+    /* ===== 表格 ===== */
+    --color-table-header-bg: 235, 235, 230;
+    --color-table-border: 210, 210, 205;
+    
+    /* ===== 提示/状态（保留原语义但灰化）===== */
+    --color-info-bg: 230, 240, 245;
+    --color-info-text: 70, 70, 85;
+    --color-success-bg: 230, 245, 230;
+    --color-success-text: 65, 85, 65;
+    --color-warning-bg: 248, 240, 225;
+    --color-warning-text: 85, 75, 60;
+    --color-danger-bg: 245, 230, 230;
+    --color-danger-text: 85, 65, 65;
+    
+    /* ===== 阴影 ===== */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
