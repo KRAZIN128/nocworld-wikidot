@@ -58,7 +58,7 @@ header.header-wrap .site-title {
 }
 
 /* ========== 主内容区 ========== */
-main &gt; .content {
+main > .content {
     background: rgb(var(--bg-content));
     box-shadow: var(--shadow-md);
     position: relative;
@@ -67,7 +67,7 @@ main &gt; .content {
     padding-bottom: 15px;
 }
 
-main &gt; .content .page-title {
+main > .content .page-title {
     font-size: 32px;
     border-bottom: 3px solid rgb(var(--border-color));
     margin: 15px 0 1em 0;
@@ -83,9 +83,9 @@ main .content .page-title span {
     height: calc(1.25em + 8px);
     margin-bottom: -8px;
     padding-right: 3px;
-    background: url(&#039;/multi-medias/imgs/themes-imgs/titleLeft.png&#039;) bottom left no-repeat,
-                url(&#039;/multi-medias/imgs/themes-imgs/titleRight.png&#039;) bottom right no-repeat,
-                url(&#039;/multi-medias/imgs/themes-imgs/titleCenter.png&#039;) bottom left repeat-x;
+    background: url('/multi-medias/imgs/themes-imgs/titleLeft.png') bottom left no-repeat,
+                url('/multi-medias/imgs/themes-imgs/titleRight.png') bottom right no-repeat,
+                url('/multi-medias/imgs/themes-imgs/titleCenter.png') bottom left repeat-x;
 }
 
 /* 正文标题 */
@@ -95,12 +95,12 @@ main .main-content h1 {
     margin-right: -21px;
     padding-right: 21px;
     font-size: 32px;
-    background: url(&#039;/multi-medias/imgs/themes-imgs/h1IndentLeft.png&#039;) center left no-repeat;
+    background: url('/multi-medias/imgs/themes-imgs/h1IndentLeft.png') center left no-repeat;
 }
 
 main .main-content-wrap.col-md-12 .main-content h1 {
-    background: url(&#039;/multi-medias/imgs/themes-imgs/h1IndentLeft.png&#039;) center left no-repeat,
-                url(&#039;/multi-medias/imgs/themes-imgs/h1IndentRight.png&#039;) center right no-repeat;
+    background: url('/multi-medias/imgs/themes-imgs/h1IndentLeft.png') center left no-repeat,
+                url('/multi-medias/imgs/themes-imgs/h1IndentRight.png') center right no-repeat;
 }
 
 main .main-content h2 {
@@ -167,9 +167,9 @@ nav .top-bar .navbar-brand:hover {
 }
 
 /* 下拉菜单 */
-nav .top-bar .navbar-nav &gt; .open &gt; a,
-nav .top-bar .navbar-nav &gt; .open &gt; a:hover,
-nav .top-bar .navbar-nav &gt; .open &gt; a:focus {
+nav .top-bar .navbar-nav > .open > a,
+nav .top-bar .navbar-nav > .open > a:hover,
+nav .top-bar .navbar-nav > .open > a:focus {
     background: none;
 }
 
@@ -178,7 +178,7 @@ nav .top-bar .navbar-nav .dropdown-menu a {
     padding-bottom: 3px;
 }
 
-nav .top-bar .navbar-nav &gt; li &gt; .dropdown-menu {
+nav .top-bar .navbar-nav > li > .dropdown-menu {
     border-radius: var(--radius-md);
 }
 
@@ -213,7 +213,7 @@ nav .top-bar .navbar-toggle .icon-bar {
 }
 
 @media (max-width: 768px) {
-    main &gt; .content {
+    main > .content {
         border-radius: 0;
     }
 }
@@ -309,7 +309,7 @@ footer .footer {
     color: rgb(var(--text-light));
 }
 
-footer .footer &gt; div {
+footer .footer > div {
     margin: 8px 0;
 }
 
@@ -380,9 +380,9 @@ footer .footer &gt; div {
     position: absolute;
     right: 0;
     top: 0;
-    font-family: &#039;FontAwesome&#039;;
+    font-family: 'FontAwesome';
     font-size: 13px;
-    content: &#039;\f002&#039;;
+    content: '\f002';
     width: 28px;
     height: 28px;
     padding: 0;
