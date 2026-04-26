@@ -1,0 +1,220 @@
+/**
+ * Code Blocks - 保留完整彩色高亮
+ * 只改边框/背景为灰白主题色
+ */
+
+/* 基础代码块容器 */
+.code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: rgb(var(--code-bg));
+    border: none;
+}
+
+div.code {
+    border: 1px solid rgb(var(--border-color));
+    border-radius: var(--radius-md);
+    margin: 10px 1px;
+    padding: 0.5em 1em;
+    box-shadow: var(--shadow-inset);
+    overflow: auto;
+    position: relative;
+    counter-reset: linenumber;
+}
+
+div.code p,
+div.code pre {
+    margin: 0;
+    padding: 0;
+}
+
+div.code p {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+/* 行号 */
+div.code span.line {
+    counter-increment: linenumber;
+    display: inline-block;
+    min-width: 100%;
+    padding-left: 32px;
+}
+
+div.code span.line:hover {
+    background-color: rgba(var(--bg-hover));
+}
+
+div.code span.line::before {
+    content: counter(linenumber);
+    position: absolute;
+    left: 10px;
+    width: 2.25em;
+    text-align: right;
+    border-right: 2px solid rgb(var(--border-color));
+    padding-right: 3px;
+    margin-right: 6px;
+    background: rgb(var(--code-bg));
+}
+
+/* 行内代码 */
+span.code {
+    border: 1px solid rgb(var(--border-light));
+    border-radius: 2em;
+    background: rgb(var(--code-bg));
+    padding: 0 0.4em;
+    font-size: 85%;
+}
+
+/* ========== 彩色代码高亮（不灰化） ========== */
+.code span.comment {
+    color: rgb(var(--code-comment));
+    font-style: italic;
+}
+
+.code span.doccomment {
+    color: rgb(80, 120, 80);
+}
+
+.code span.keyword,
+.code span.statement,
+.code span.definition {
+    color: rgb(var(--code-keyword));
+    font-weight: bold;
+}
+
+.code span.string,
+.code span.char {
+    color: rgb(var(--code-string));
+}
+
+.code span.number,
+.code span.digit,
+.code span.literal {
+    color: rgb(var(--code-number));
+}
+
+.code span.function,
+.code span.method {
+    color: rgb(var(--code-function));
+}
+
+.code span.operator {
+    color: rgb(var(--code-operator));
+}
+
+.code span.variable,
+.code span.var {
+    color: rgb(var(--code-variable));
+}
+
+.code span.attribute,
+.code span.property {
+    color: rgb(var(--code-attribute));
+}
+
+.code span.type,
+.code span.class {
+    color: rgb(var(--code-type));
+    font-weight: bold;
+}
+
+.code span.invalid {
+    color: rgb(var(--code-invalid));
+    font-weight: bold;
+}
+
+.code span.tag {
+    color: rgb(var(--code-keyword));
+}
+
+.code span.selector {
+    color: rgb(var(--code-function));
+}
+
+/* CSS 特定 */
+.code.css span.idSelector {
+    color: rgb(150, 100, 50);
+}
+
+.code.css span.browserDefinition {
+    color: rgb(var(--code-keyword));
+}
+
+/* HTML 特定 */
+.code.html span.attribute {
+    color: rgb(var(--code-attribute));
+}
+
+.code.html span.tag {
+    color: rgb(var(--code-keyword));
+}
+
+/* JavaScript 特定 */
+.code.js span.dom {
+    color: rgb(var(--code-type));
+}
+
+/* 预格式化 */
+.code pre {
+    border: none;
+    background: none;
+}
+
+/* 代码内的链接 */
+.code a {
+    color: inherit;
+    border-bottom: 1px dotted;
+    display: inline-block;
+    height: 1.28em;
+}
+
+.code a:hover {
+    text-decoration: none;
+    color: inherit;
+    border-bottom: none;
+}
+
+.code a.newpage,
+.code a.newpage:hover {
+    color: rgb(var(--code-invalid));
+}
+
+/* 代码块主题变体（边框色跟随主题） */
+.code.code-primary,
+.code-primary .code {
+    border-color: rgb(var(--border-color));
+}
+
+div.code.code-primary span.line::before,
+.code-primary .code span.line::before {
+    border-color: rgb(var(--border-color));
+}
+
+div.code.code-primary span.line:hover,
+.code-primary .code span.line:hover {
+    background-color: rgba(var(--color-gray-light), 0.08);
+}
+
+/* 统一所有代码块变体边框色为灰白主题 */
+.code.code-success,
+.code.code-danger,
+.code.code-info,
+.code.code-warning,
+.code-success .code,
+.code-danger .code,
+.code-info .code,
+.code-warning .code {
+    border-color: rgb(var(--border-color));
+}
+
+div.code.code-success span.line::before,
+div.code.code-danger span.line::before,
+div.code.code-info span.line::before,
+div.code.code-warning span.line::before,
+.code-success .code span.line::before,
+.code-danger .code span.line::before,
+.code-info .code span.line::before,
+.code-warning .code span.line::before {
+    border-color: rgb(var(--border-color));
+}
