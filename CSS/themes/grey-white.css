@@ -35,7 +35,7 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 */
 
-* ========== 全局变量 ========== */
+/* ========== 全局变量 ========== */
 :root {
     --bg-body: 245, 245, 240;
     --bg-content: 245, 245, 240;
