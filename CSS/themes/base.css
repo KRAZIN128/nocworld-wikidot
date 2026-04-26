@@ -96,6 +96,47 @@ a.newpage:hover {
     right: 0;
 }
 
-#navi-bar, #navi-bar-shadow {
-    display: none !important;
+#side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1100;
+    visibility: hidden;
+    transition: visibility 0.3s;
+}
+
+#side-bar:target {
+    visibility: visible;
+}
+
+/* 遮罩层：就是一个链接，铺满全屏，点击关闭 */
+#side-bar .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: default;
+    display: block;
+}
+
+/* 菜单面板：在遮罩层上方，左侧滑出 */
+#side-bar .menu-panel {
+    position: absolute;
+    top: 0;
+    left: -300px;
+    width: 280px;
+    height: 100%;
+    background: rgb(var(--bg-sidebar));
+    padding: 20px;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    z-index: 1;
+}
+
+#side-bar:target .menu-panel {
+    left: 0;
 }
