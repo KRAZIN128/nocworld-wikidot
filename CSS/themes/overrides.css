@@ -1,0 +1,251 @@
+/**
+ * Overrides - 覆盖/兼容旧样式
+ */
+
+/* 链接（统一色） */
+a,
+a:link,
+a:visited {
+    color: rgb(var(--link-color));
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    color: rgb(var(--link-hover-color));
+    text-decoration: underline;
+}
+
+a:active {
+    color: rgb(var(--link-active-color));
+}
+
+a.newpage {
+    color: rgb(var(--text-light));
+}
+
+a.newpage:hover,
+a.newpage:focus {
+    color: rgb(var(--text-main));
+}
+
+/* 删除和插入标记 */
+ins {
+    font-weight: bold;
+    background-color: rgba(100, 150, 100, 0.2);
+    color: rgb(var(--text-main));
+    text-decoration: none;
+}
+
+del {
+    text-decoration: line-through;
+    background-color: rgba(200, 100, 100, 0.1);
+    color: rgb(var(--text-light));
+}
+
+/* 邮件表单 */
+.mailform-box {
+    width: 84%;
+    margin: 16px auto;
+}
+
+.mailform-box .form {
+    width: 100%;
+}
+
+.mailform-box .form tr td:first-child {
+    width: 16%;
+    text-align: right;
+    vertical-align: top;
+    padding: 0.5em 1em;
+    font-weight: bold;
+}
+
+.mailform-box input.text,
+.mailform-box textarea {
+    width: 100%;
+}
+
+.mailform-box .buttons {
+    text-align: center;
+    margin-top: 12px;
+    display: block;
+}
+
+.mailform-box .field-error-message {
+    color: rgb(var(--code-invalid));
+}
+
+@media (max-width: 1200px) {
+    .mailform-box {
+        width: 90%;
+    }
+    .mailform-box .form tr td:first-child {
+        width: 18%;
+    }
+}
+
+/* 动作区域 */
+#action-area {
+    margin-top: 56px;
+}
+
+#action-area .page-source {
+    font-family: var(--font-mono);
+    font-size: 13px;
+}
+
+.change-textarea-size {
+    display: none;
+}
+
+.wd-editor-toolbar-panel {
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+.wd-editor-toolbar-panel div {
+    height: auto;
+}
+
+.wd-editor-toolbar-panel ul li a {
+    background-image: url('/multi-medias/imgs/themes-imgs/editorButtons.png');
+    background-color: rgb(var(--bg-content));
+    border-radius: var(--radius-md);
+    display: inline-block;
+    line-height: 1.42857;
+    padding: 0;
+    border: 1px solid rgb(var(--border-color));
+    height: 25px;
+    width: 25px;
+}
+
+.wd-editor-toolbar-panel ul li a:hover,
+.wd-editor-toolbar-panel ul li a:focus {
+    background-image: url('/multi-medias/imgs/themes-imgs/editorButtons.png');
+    background-color: rgba(var(--color-gray-light), 0.2);
+    border-color: rgb(var(--border-dark));
+}
+
+.wd-editor-toolbar-panel li.hseparator {
+    background-color: rgb(var(--border-light));
+    width: 1px;
+}
+
+#edit-page-textarea {
+    width: 100% !important;
+    font-family: var(--font-mono);
+}
+
+a.action-area-close {
+    margin-top: 2px;
+}
+
+/* 历史页面 */
+#action-area .page-history {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#action-area .page-history tr > td {
+    border-top: 1px solid rgb(var(--border-color));
+    padding: 8px;
+    vertical-align: top;
+}
+
+#action-area .page-history tr:first-child td {
+    background: rgb(var(--bg-table-header));
+    font-weight: bold;
+}
+
+/* 评分组件 */
+.page-rate-widget-box .rate-points {
+    background: none;
+    font-size: 0;
+}
+
+.page-rate-widget-box .rate-points .number {
+    font-size: var(--font-size-base);
+    color: rgb(var(--text-main));
+    border: 1px solid rgb(var(--border-color));
+    padding: 6px 12px;
+    display: inline-block;
+    border-radius: var(--radius-md);
+}
+
+.page-rate-widget-box .btn {
+    padding: 0;
+    margin-right: 3px;
+}
+
+.page-rate-widget-box .btn a {
+    padding: 6px 12px;
+    background: none;
+    font-size: 0;
+    display: inline-block;
+    color: rgb(var(--text-main));
+}
+
+.page-rate-widget-box .btn a::after {
+    font-family: 'FontAwesome';
+    font-size: var(--font-size-base);
+}
+
+.page-rate-widget-box .btn.rateup a::after {
+    content: '\f067';
+}
+
+.page-rate-widget-box .btn.cancel a::after {
+    content: '\f00d';
+}
+
+.page-rate-widget-box .btn.ratedown a::after {
+    content: '\f068';
+}
+
+/* 目录 */
+#toc {
+    min-width: 200px;
+    border: 1px solid rgb(var(--border-color));
+    border-radius: var(--radius-md);
+    padding: 0.5em 1em;
+    background: rgb(var(--bg-content));
+    margin-left: 1em;
+    float: right;
+}
+
+#toc .title {
+    letter-spacing: 1px;
+}
+
+#toc-action-bar {
+    height: 0;
+}
+
+#toc-action-bar a {
+    font-size: 0;
+    position: relative;
+    left: 138px;
+}
+
+#toc-action-bar a:first-child::after {
+    font-family: 'FontAwesome';
+    content: '\f068';
+    font-size: var(--font-size-small);
+}
+
+#toc-action-bar a:last-child::after {
+    font-family: 'FontAwesome';
+    content: '\f067';
+    font-size: var(--font-size-small);
+}
+
+.floatleft {
+    float: left;
+}
+
+.floatright {
+    float: right;
+}
