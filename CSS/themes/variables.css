@@ -1,51 +1,62 @@
 :root {
-    /* ===== 主色调（灰白主题）===== */
-    --color-bg-body: 250, 250, 245;        /* #FAFAF5 米白 */
-    --color-bg-content: 255, 255, 252;     /* #FFFFFC 内容区米白 */
-    --color-bg-sidebar: 248, 248, 243;     /* #F8F8F3 */
+    /* ========== 背景色 ========== */
+    --bg-body: 245, 245, 240;
+    --bg-content: 245, 245, 240;
+    --bg-code: 248, 248, 245;
+    --bg-code-block: 250, 250, 245;
+    --bg-table-header: 85, 85, 85;
+    --bg-table-row-hover: 0, 0, 0, 0.04;
+    --bg-sidebar: 245, 245, 240;
+    --bg-footer: 245, 245, 240;
     
-    /* ===== 文本颜色 ===== */
-    --color-text-primary: 85, 85, 85;      /* #555555 主灰 */
-    --color-text-secondary: 128, 128, 128; /* #808080 */
-    --color-text-light: 195, 195, 195;     /* #C3C3C3 打底色 */
-    --color-text-inverse: 255, 255, 255;   /* 白字（深色背景用）*/
+    /* ========== 文字颜色 ========== */
+    --text-main: 85, 85, 85;
+    --text-light: 120, 120, 120;
+    --text-dark: 40, 40, 40;
+    --text-white: 255, 255, 255;
+    --text-muted: 150, 150, 150;
     
-    /* ===== 链接颜色（访问前后一致）===== */
-    --color-link: 85, 85, 85;              /* #555555 */
-    --color-link-hover: 100, 100, 100;     /* #646464 稍深 */
-    --color-link-visited: 85, 85, 85;      /* 同未访问 */
+    /* ========== 链接颜色 ========== */
+    --link-color: 85, 85, 85;
+    --link-visited: 85, 85, 85;
+    --link-hover: 85, 85, 85;
+    --link-hover-bg: 0, 0, 0, 0.05;
     
-    /* ===== 边框颜色 ===== */
-    --color-border-light: 220, 220, 215;   /* #DCDCD7 */
-    --color-border-medium: 200, 200, 195;  /* #C8C8C3 */
-    --color-border-dark: 170, 170, 165;    /* #AAAAA5 */
+    /* ========== 边框颜色 ========== */
+    --border-color: 85, 85, 85;
+    --border-light: 195, 195, 195;
+    --border-lighter: 220, 220, 220;
+    --border-dark: 68, 68, 68;
     
-    /* ===== 按钮/交互 ===== */
-    --color-btn-bg: 245, 245, 240;         /* #F5F5F0 */
-    --color-btn-border: 200, 200, 195;
-    --color-btn-hover-bg: 235, 235, 230;
-    
-    /* ===== 代码块 ===== */
-    --color-code-bg: 245, 245, 242;
-    --color-code-border: 210, 210, 205;
-    --color-code-line-number-border: 200, 200, 195;
-    
-    /* ===== 表格 ===== */
-    --color-table-header-bg: 235, 235, 230;
-    --color-table-border: 210, 210, 205;
-    
-    /* ===== 提示/状态（保留原语义但灰化）===== */
-    --color-info-bg: 230, 240, 245;
-    --color-info-text: 70, 70, 85;
-    --color-success-bg: 230, 245, 230;
-    --color-success-text: 65, 85, 65;
-    --color-warning-bg: 248, 240, 225;
-    --color-warning-text: 85, 75, 60;
-    --color-danger-bg: 245, 230, 230;
-    --color-danger-text: 85, 65, 65;
-    
-    /* ===== 阴影 ===== */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    /* ========== 阴影 ========== */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    
+    /* ========== 代码高亮（保留彩色） ========== */
+    --code-comment: 106, 153, 85;
+    --code-keyword: 0, 0, 255;
+    --code-string: 163, 21, 21;
+    --code-number: 9, 134, 88;
+    --code-operator: 175, 0, 219;
+    --code-attribute: 255, 0, 0;
+    --code-type: 38, 127, 153;
+    --code-tag: 128, 0, 0;
+    
+    /* ========== Topbar ========== */
+    --topbar-bg: 85, 85, 85;
+    --topbar-text: 255, 255, 255;
+    --topbar-hover-bg: 68, 68, 68;
+    --topbar-dropdown-bg: 85, 85, 85;
+    --topbar-dropdown-border: 51, 51, 51;
+    --topbar-dropdown-hover: 0, 0, 0;
+    
+    /* ========== 字体 ========== */
+    --font-mono: Monaco, Menlo, Consolas, "Courier New", monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    /* ========== 尺寸 ========== */
+    --header-height: 250px;
+    --topbar-height: 44px;
 }
