@@ -12,7 +12,7 @@
  * CDN 引入：
  * https://cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/CSS/themes/grey-white.css
  */
-@import url(https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--theme/bootstrap-base/css/style.css");
+@import url("https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--theme/bootstrap-base/css/style.css");
 /* 变量定义 */
 @import url('./variables.css');
 
