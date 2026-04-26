@@ -1,0 +1,44 @@
+.lightblock, .lightblock-border {
+    background-color: rgb(var(--bg-content));
+    color: rgb(var(--text-main));
+    padding: 0.01rem 1rem;
+    margin: 0.5rem 0 0.5rem 0.25rem;
+    box-shadow: var(--shadow-md);
+}
+.darkblock, .darkblock-border {
+    background-color: rgb(var(--bg-table-header));
+    color: rgb(var(--text-white));
+    padding: 0.01rem 1rem;
+    margin: 0.5rem 0 0.5rem 0.25rem;
+    box-shadow: var(--shadow-md);
+}
+.lightblock-border {
+    border-left: 10px solid rgb(var(--border-color));
+}
+.darkblock-border {
+    border-left: 10px solid rgb(var(--text-white));
+}
+
+#rename-option-rename > div.warning-block > div.title,
+#rename-option-rename > div.warning-block > p,
+#rename-option-rename > div.warning-block > p > b,
+#rename-option-delete > p {
+    color: transparent;
+    font-size: 0;
+}
+#rename-option-delete > p::before {
+    content: var(--rename-option-delete--text);
+    color: rgb(var(--text-main));
+    font-style: italic;
+    font-size: 1rem;
+}
+#rename-option-rename > .warning-block p::before {
+    content: var(--rename-option-rename--warning--second);
+    color: rgb(var(--text-main));
+    font-size: 1rem;
+}
+#rename-option-rename > .warning-block p:last-of-type::before {
+    content: var(--rename-option-rename--warning--third);
+    font-weight: bold;
+    font-size: 1rem;
+}
