@@ -13,7 +13,7 @@
 }
 
 .wiki-content-table th {
-    background: rgb(var(--bg-table-header));
+    background: rgb(var(--text-main));
     color: rgb(var(--text-white));
     font-weight: bold;
     text-align: center;
