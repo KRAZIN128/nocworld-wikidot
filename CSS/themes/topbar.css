@@ -111,3 +111,45 @@
 #top-bar > ul > li > ul > li a:hover {
     background: rgb(var(--topbar-dropdown-hover));
 }
+
+#search-top-box-form {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+
+#search-top-box-input {
+    flex: 1;
+    border-right: none;
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 14px;
+    background: rgb(var(--bg-content));
+    border: 1px solid rgb(var(--border-light));
+}
+
+#search-top-box .btn {
+    background: rgb(var(--topbar-bg));
+    border: 1px solid rgb(var(--border-light));
+    border-left: none;
+    color: rgb(var(--text-white));
+    height: 32px;
+    padding: 0 12px;
+    line-height: 30px;
+    transition: background 0.2s;
+}
+
+#search-top-box .btn:hover {
+    background: rgb(var(--topbar-hover-bg));
+    cursor: pointer;
+}
+
+#search-top-box,
+#search-top-box * {
+    text-align: left;
+    color: rgb(var(--text-main));
+}
+
+#search-top-box .btn {
+    color: rgb(var(--text-white));
+}
