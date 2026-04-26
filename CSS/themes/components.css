@@ -54,3 +54,83 @@
     background-color: rgb(var(--border-light));
     width: 1px;
 }
+
+#edit-page-form > .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 1em 0;
+    box-shadow: var(--shadow-sm);
+}
+
+#edit-page-form > .buttons > button,
+#edit-page-form > .buttons > input {
+    flex: 0 0 auto;
+    margin: 0;
+    border-radius: 0;
+    border-right: none;
+    padding: 8px 16px;
+    font-weight: bold;
+    color: rgb(var(--text-white));
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-inset);
+}
+
+#edit-page-form > .buttons > button:active,
+#edit-page-form > .buttons > input:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* 第一个按钮保留左圆角 */
+#edit-page-form > .buttons > button:first-child,
+#edit-page-form > .buttons > input:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+/* 最后一个按钮保留右圆角和右边框 */
+#edit-page-form > .buttons > button:last-child,
+#edit-page-form > .buttons > input:last-child {
+    border-right: 1px solid rgba(0,0,0,0.2);
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+/* 取消按钮（左上角圆角） */
+#edit-cancel-button {
+    background-color: #800020;
+    border-top-left-radius: 20px !important;
+}
+
+/* 差异按钮 */
+#edit-diff-button {
+    background-color: #4A6A8A;
+}
+
+/* 预览按钮 */
+#edit-preview-button {
+    background-color: #5A6A7A;
+}
+
+/* 保存草稿 */
+#edit-save-draft-button {
+    background-color: #5A7A6A;
+}
+
+/* 保存并继续（浅一些的深灰） */
+#edit-save-continue-button {
+    background-color: #6A6A6A;
+}
+
+/* 保存按钮（深灰） */
+#edit-save-button {
+    background-color: #3A3A3A;
+}
+
+/* 悬浮效果统一加深 */
+#edit-page-form > .buttons > button:hover,
+#edit-page-form > .buttons > input:hover {
+    filter: brightness(0.85);
+    cursor: pointer;
+}
