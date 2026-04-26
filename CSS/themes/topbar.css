@@ -111,25 +111,3 @@
 #top-bar > ul > li > ul > li a:hover {
     background: rgb(var(--topbar-dropdown-hover));
 }
-
-@media (max-width: 768px) {
-    #top-bar > ul {
-        float: none;
-    }
-    #top-bar > ul > li {
-        float: none;
-    }
-    #top-bar > ul > li > ul {
-        position: static;
-        width: 100%;
-        min-width: auto;
-    }
-    #top-bar > ul > li > ul > li {
-        width: 100%;
-    }
-    #top-bar > ul > li > ul > li:nth-child(odd),
-    #top-bar > ul > li > ul > li:nth-child(even) {
-        border: none;
-        border-bottom: 1px solid rgb(245, 245, 245);
-    }
-}
