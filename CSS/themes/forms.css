@@ -1,0 +1,42 @@
+input[type="text"]:not(.form-control),
+textarea:not(.form-control),
+input[type="password"],
+input[type="email"],
+select {
+    background: rgb(var(--bg-content));
+    border: 1px solid rgb(var(--border-light));
+    padding: 6px 12px;
+    font-size: 14px;
+    color: rgb(var(--text-main));
+}
+
+input[type="text"]:not(.form-control):focus,
+textarea:not(.form-control):focus {
+    outline: none;
+    border-color: rgb(var(--border-color));
+}
+
+input[type="button"]:not(.btn),
+input[type="submit"]:not(.btn),
+.button,
+.join-box a,
+#new-post-button {
+    display: inline-block;
+    line-height: 1.42857;
+    text-align: center;
+    font-size: 14px;
+    padding: 6px 12px;
+    color: rgb(var(--text-main));
+    background-color: rgb(var(--bg-content));
+    border: 1px solid rgb(var(--border-light));
+}
+
+input[type="button"]:not(.btn):hover,
+input[type="submit"]:not(.btn):hover,
+.button:hover,
+.join-box a:hover,
+#new-post-button:hover {
+    border-color: rgb(var(--border-color));
+    background-color: rgba(var(--border-light), 0.2);
+    text-decoration: none;
+}
