@@ -8,3 +8,13 @@
 @import url(./custom.css);
 @import url(./sidebar.css);
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+#container-wrap,
+#container,
+#content-wrap,
+.content-wrap {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
