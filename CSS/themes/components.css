@@ -1,0 +1,56 @@
+.page-rate-widget-box .rate-points {
+    background: none;
+    font-size: 0;
+}
+.page-rate-widget-box .rate-points .number {
+    font-size: 14px;
+    color: rgb(var(--text-main));
+    border: 1px solid rgb(var(--border-light));
+    padding: 6px 12px;
+}
+.page-rate-widget-box .btn a {
+    font-size: 0;
+    color: rgb(var(--text-main));
+}
+.page-rate-widget-box .btn a::after {
+    font-family: 'FontAwesome';
+    font-size: 14px;
+}
+.page-rate-widget-box .btn.rateup a::after { content: '\f067'; }
+.page-rate-widget-box .btn.cancel a::after { content: '\f00d'; }
+.page-rate-widget-box .btn.ratedown a::after { content: '\f068'; }
+
+#page-options-bottom {
+    margin-top: 12px;
+}
+
+.footnotes-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid rgb(var(--border-light));
+    font-size: 13px;
+}
+
+.wd-editor-toolbar-panel ul li a {
+    background-image: var(--editor-buttons-url);
+    background-color: rgb(var(--bg-content));
+    border-radius: 4px;
+    display: inline-block;
+    line-height: 1.42857;
+    padding: 0;
+    border: 1px solid rgb(var(--border-color));
+    height: 25px;
+    width: 25px;
+}
+
+.wd-editor-toolbar-panel ul li a:hover,
+.wd-editor-toolbar-panel ul li a:focus {
+    background-image: var(--editor-buttons-url);
+    background-color: rgba(var(--border-color), 0.2);
+    border-color: rgb(var(--border-dark));
+}
+
+.wd-editor-toolbar-panel li.hseparator {
+    background-color: rgb(var(--border-light));
+    width: 1px;
+}
