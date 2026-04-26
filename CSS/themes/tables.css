@@ -1,0 +1,28 @@
+.wiki-content-table {
+    margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid rgb(var(--border-color));
+}
+
+.wiki-content-table th,
+.wiki-content-table td {
+    border: 1px solid rgb(var(--border-color));
+    padding: 8px;
+    vertical-align: top;
+}
+
+.wiki-content-table th {
+    background: rgb(var(--bg-table-header));
+    color: rgb(var(--text-white));
+    font-weight: bold;
+    text-align: center;
+}
+
+.wiki-content-table td {
+    background: rgb(var(--bg-content));
+}
+
+.wiki-content-table tr:hover td {
+    background-color: rgba(var(--bg-table-row-hover));
+}
