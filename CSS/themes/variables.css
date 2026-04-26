@@ -59,4 +59,12 @@
     /* ========== 尺寸 ========== */
     --header-height: 250px;
     --topbar-height: 44px;
+
+    /* ========== 自定义消息文本 ========== */
+	--rename-option-delete--text: "本操作将彻底删除该页面，且无法恢复。但愿您真的明白这将会发生什么……";
+	--rename-option-rename--warning--second: "此页面对管理功能的正常运行至关重要，其中很可能包含用于配置和管理本维基的模块。";
+	--rename-option-rename--warning--third: "只有在你清楚自己在做什么的情况下才能继续。";
+
+    /* ========== 编辑器图标 ========== */
+    --editor-buttons-url: url('https://cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/multi-medias/imgs/themes-imgs/editorButtons.png');
 }
