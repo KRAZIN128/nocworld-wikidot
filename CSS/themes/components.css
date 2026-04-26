@@ -1,0 +1,266 @@
+/**
+ * Components - Tabview, 图片框, 提示框等
+ */
+
+/* ========== Tabview 标签页 ========== */
+.yui-navset .yui-nav {
+    list-style: none;
+    padding: 0;
+}
+
+.yui-navset .yui-nav li {
+    float: left;
+}
+
+.yui-navset .yui-nav li a {
+    display: inline-block;
+    border: 1px solid rgb(var(--border-color));
+    border-bottom: none;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    background: rgb(var(--bg-content));
+    padding: 2px 12px;
+    margin-right: 2px;
+    margin-top: 4px;
+    color: rgb(var(--text-main));
+}
+
+.yui-navset .yui-nav li.selected a {
+    background: rgba(var(--color-gray-light), 0.15);
+    padding: 4px 14px;
+    margin-top: 0;
+}
+
+.yui-navset .yui-nav li a:hover,
+.yui-navset .yui-nav li a:focus {
+    background: rgba(var(--color-gray-light), 0.2);
+    border-color: rgb(var(--border-dark));
+    text-decoration: none;
+    outline: none;
+}
+
+.yui-navset .yui-content {
+    clear: both;
+    border: 1px solid rgb(var(--border-color));
+    border-top-width: 3px;
+    background: rgb(var(--bg-content));
+    border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+    padding: 12px 12px 0 12px;
+}
+
+/* Tabview 主题变体（统一灰白） */
+.tabview-primary .yui-navset .yui-nav li a,
+.tabview-info .yui-navset .yui-nav li a,
+.tabview-success .yui-navset .yui-nav li a,
+.tabview-warning .yui-navset .yui-nav li a,
+.tabview-danger .yui-navset .yui-nav li a {
+    border-color: rgb(var(--border-color));
+    background: rgb(var(--bg-content));
+    color: rgb(var(--text-main));
+}
+
+/* ========== 图片框 ========== */
+.image-box {
+    border: 1px solid rgb(var(--border-color));
+    border-radius: var(--radius-md);
+    background: rgb(var(--bg-content));
+    margin: 10px;
+    padding: 5px;
+}
+
+.image-box .image-box-heading {
+    background: rgba(var(--color-gray-light), 0.2);
+    padding: 5px 10px;
+    margin: -5px -5px 5px -5px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    color: rgb(var(--text-main));
+}
+
+.image-box .image-box-caption {
+    color: rgb(var(--text-light));
+    font-size: var(--font-size-small);
+    padding: 5px;
+}
+
+.image-box.image-box-primary .image-box-link:hover {
+    border-color: rgb(var(--border-dark));
+}
+
+/* ========== 提示框 Alert ========== */
+.alert {
+    border-radius: var(--radius-md);
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+
+.alert.alert-info {
+    background: rgba(195, 195, 195, 0.15);
+    border-color: rgb(var(--border-color));
+    color: rgb(var(--text-main));
+}
+
+/* ========== 折叠面板 Panel ========== */
+.panel {
+    margin-bottom: 20px;
+    background-color: rgb(var(--bg-content));
+    border: 1px solid rgb(var(--border-color));
+    border-radius: var(--radius-md);
+}
+
+.panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid rgb(var(--border-color));
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+    background: rgba(var(--color-gray-light), 0.1);
+}
+
+.panel-heading p {
+    margin: 0;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+/* ========== 进度条 ========== */
+.progress {
+    height: 20px;
+    margin-bottom: 20px;
+    background-color: rgba(var(--color-gray-light), 0.3);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: rgb(var(--color-gray-main));
+    color: rgb(var(--text-white));
+    float: left;
+    height: 100%;
+    text-align: center;
+}
+
+/* ========== 标签 Label ========== */
+.label {
+    display: inline;
+    padding: 0.2em 0.6em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: rgb(var(--text-white));
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+    background-color: rgb(var(--color-gray-main));
+}
+
+/* ========== 画廊 Gallery ========== */
+.gallery-box .gallery-item {
+    float: left;
+    border: 1px solid rgb(var(--border-color));
+    padding: 5px;
+    margin: 5px;
+    background: rgb(var(--bg-content));
+}
+
+.gallery-box::after {
+    clear: both;
+    display: table;
+    content: &#039; &#039;;
+}
+
+/* ========== 内联提示框 Hovertip ========== */
+.hovertip {
+    border: none !important;
+    background: rgba(var(--color-dark), 0.95) !important;
+    font-size: var(--font-size-small);
+    text-align: center;
+    min-width: 100px;
+    color: rgb(var(--text-white));
+    border-radius: var(--radius-md);
+}
+
+.hover {
+    display: inline-block;
+    background: none;
+    height: 1.42857em;
+    margin-bottom: 3px;
+    text-decoration: underline;
+    border-bottom: 1px solid rgb(var(--text-main));
+    color: rgb(var(--text-main));
+}
+
+.hover:hover {
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    background: url(&#039;/multi-medias/imgs/themes-imgs/hovertipBelow.png&#039;);
+    background-repeat: no-repeat;
+    background-position: center calc(1.42857em - 2px);
+    height: calc(1.42857em + 3px);
+    margin-bottom: 0;
+}
+
+.hover span {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+    transition: none;
+}
+
+.hover:hover span {
+    visibility: visible;
+    position: absolute;
+    opacity: 1;
+    border: none;
+    background: rgba(var(--color-dark), 0.95);
+    font-size: var(--font-size-small);
+    min-width: 200px;
+    color: rgb(var(--text-white));
+    border-radius: var(--radius-md);
+    padding: 4px 12px;
+    margin-top: calc(1.42857em + 6px);
+    margin-left: -20px;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+}
+
+.hover:hover span span {
+    position: relative;
+    margin: auto;
+    height: auto;
+    width: auto;
+    border: none;
+    padding: 0;
+}
+
+/* ========== 嵌入视频响应式 ========== */
+.embed-responsive {
+    display: block;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+}
+
+.embed-responsive .embed-responsive-item,
+.embed-responsive embed,
+.embed-responsive iframe,
+.embed-responsive object,
+.embed-responsive video {
+    border: 0 none;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.embed-responsive-16by9 {
+    padding-bottom: 56.25%;
+}
+
+.embed-responsive-4by3 {
+    padding-bottom: 75%;
+  }
