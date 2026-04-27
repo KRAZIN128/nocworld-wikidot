@@ -7,22 +7,22 @@
 
 .wiki-content-table th,
 .wiki-content-table td {
-    border: 1px solid rgb(var(--border-color));
-    padding: 8px;
-    vertical-align: top;
+    border: 1px solid rgb(var(--border-color)) !important;
+    padding: 8px !important;
+    vertical-align: top !important;
 }
 
 .wiki-content-table :is(th, th a) {
-    background: rgb(var(--text-main));
-    color: rgb(var(--text-white));
-    font-weight: bold;
-    text-align: center;
+    background: rgb(var(--bg-table-header)) !important;
+    color: rgb(var(--text-white)) !important;
+    font-weight: bold !important;
+    text-align: center !important;
 }
 
 .wiki-content-table td {
-    background: rgb(var(--bg-content));
+    background: rgb(var(--bg-content)) !important;
 }
 
 .wiki-content-table tr:hover td {
-    background-color: rgba(var(--bg-table-row-hover));
+    background-color: rgba(var(--bg-table-row-hover)) !important;
 }
