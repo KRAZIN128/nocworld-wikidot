@@ -1,4 +1,3 @@
-html, body { margin: 0 !important; }
 body {
     background-color: rgb(var(--bg-body));
     color: rgb(var(--text-main));
@@ -95,6 +94,7 @@ a.newpage:hover {
     margin-right: 0;
     padding: 0;
     right: 0;
+	color: transparent;
 }
 
 #main-content {
@@ -106,78 +106,27 @@ a.newpage:hover {
   margin: 0;
   padding-right: 0;
 }
+#search-top-box-input {
+	display: none;
+}
 
-@media (max-width: 768px) {
-	#search-top-box {
-		position: relative;
-		width: auto;
-	}
+#search-top-box::before {
+	content: '\f002';
+	font-family: 'FontAwesome';
+	font-size: 18px;
+	padding: 6px 8px;
+	cursor: pointer;
+	display: inline-block;
+	color: rgb(var(--white-text));
+}
 
-	#search-top-box-form {
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-	}
+#search-top-box:hover #search-top-box-input {
+	width: 160px;
+	opacity: 1;
+	padding: 4px 8px;
+}
 
-	#search-top-box-input {
-		width: 0;
-		opacity: 0;
-		padding: 0;
-		border: none;
-		transition: width 0.2s ease, opacity 0.2s ease;
-	}
-
-	#search-top-box::before {
-		content: '\f002';
-		font-family: 'FontAwesome';
-		font-size: 18px;
-		padding: 6px 8px;
-		cursor: pointer;
-		display: inline-block;
-	}
-
-	#search-top-box:hover #search-top-box-input {
-		width: 160px;
-		opacity: 1;
-		padding: 4px 8px;
-		border: 1px solid rgb(var(--border-light));
-	}
-
-	#search-top-box:hover::before {
-		display: none;
-	}
-
-	#login-status .printuser span,
-	#login-status .printuser a:not(:first-child),
-	#login-status > span:not(.printuser),
-	#login-status #my-account {
-		display: none;
-	}
-
-	#login-status {
-		position: relative;
-	}
-
-	#login-status .printuser img {
-		max-width: 28px;
-		border-radius: 50%;
-		cursor: pointer;
-	}
-
-	#account-options {
-		position: absolute;
-		right: 0;
-		top: 32px;
-		background: rgb(var(--bg-content));
-		border: 1px solid rgb(var(--border-light));
-		border-radius: 4px;
-		box-shadow: var(--shadow-md);
-		min-width: 160px;
-		display: none;
-		z-index: 1100;
-	}
-
-	#login-status:hover #account-options {
-		display: block;
-	}
+html, body {
+	margin: 0 !important;
+	padding: 0 !important;
 }
