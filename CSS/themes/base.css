@@ -127,7 +127,6 @@ a.newpage:hover {
 }
 
 html, body {
-	margin: 0 !important;
-	padding: 0 !important;
-	overflow: hidden !important;
+	width: clac(100vw - (100vw - 100%));
+	overflow-x: hidden;
 }
