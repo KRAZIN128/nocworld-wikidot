@@ -1,3 +1,4 @@
+html, body { margin: 0 !important; }
 body {
     background-color: rgb(var(--bg-body));
     color: rgb(var(--text-main));
