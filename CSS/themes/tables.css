@@ -1,28 +1,30 @@
-.wiki-content-table {
+table.wiki-content-table {
     margin-bottom: 20px;
     width: 100%;
     border-collapse: collapse;
     border: 1px solid rgb(var(--border-color));
 }
 
-.wiki-content-table th,
-.wiki-content-table td {
-    border: 1px solid rgb(var(--border-color)) !important;
-    padding: 8px !important;
-    vertical-align: top !important;
+table.wiki-content-table th,
+table.wiki-content-table td {
+    border: 1px solid rgb(var(--border-color));
+    padding: 8px;
+    vertical-align: top;
 }
 
-.wiki-content-table :is(th, th a) {
-    background: rgb(var(--bg-table-header)) !important;
-    color: rgb(var(--text-white)) !important;
-    font-weight: bold !important;
-    text-align: center !important;
+table.wiki-content-table th {
+    background: rgb(var(--bg-table-header));
+    color: rgb(var(--text-white));
+    font-weight: bold;
+    text-align: center;
 }
 
-.wiki-content-table td {
-    background: rgb(var(--bg-content)) !important;
+table.wiki-content-table a { color: rgb(var(--text-white)); }
+
+table.wiki-content-table td {
+    background: rgb(var(--bg-content));
 }
 
-.wiki-content-table tr:hover td {
-    background-color: rgba(var(--bg-table-row-hover)) !important;
+table.wiki-content-table tr:hover td {
+    background-color: rgba(var(--bg-table-row-hover));
 }
