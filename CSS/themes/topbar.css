@@ -25,6 +25,7 @@
     padding: 12px 16px;
     color: rgb(var(--topbar-text));
     font-weight: bold;
+    font-size: 150%;
     letter-spacing: 1px;
     text-decoration: none;
     cursor: pointer;
