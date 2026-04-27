@@ -86,7 +86,7 @@ a.newpage:hover {
     margin: 8px 0;
 }
 
-#login-status {
+#account-options {
     background: rgb(var(--topbar-bg));
 }
 #search-top-box {
@@ -94,7 +94,6 @@ a.newpage:hover {
     margin-right: 0;
     padding: 0;
     right: 0;
-	color: transparent;
 }
 
 #main-content {
@@ -108,22 +107,6 @@ a.newpage:hover {
 }
 #search-top-box-input {
 	display: none;
-}
-
-#search-top-box::before {
-	content: '\f002';
-	font-family: 'FontAwesome';
-	font-size: 18px;
-	padding: 6px 8px;
-	cursor: pointer;
-	display: inline-block;
-	color: rgb(var(--white-text));
-}
-
-#search-top-box:hover #search-top-box-input {
-	width: 160px;
-	opacity: 1;
-	padding: 4px 8px;
 }
 
 html, body {
