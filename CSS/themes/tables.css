@@ -2,12 +2,12 @@ table.wiki-content-table {
     margin-bottom: 20px;
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid rgb(var(--border-color));
+    border: 1px solid rgb(var(--table-border-color));
 }
 
 table.wiki-content-table th,
 table.wiki-content-table td {
-    border: 1px solid rgb(var(--border-color));
+    border: 1px solid rgb(var(--table-border-color));
     padding: 8px;
     vertical-align: top;
 }
