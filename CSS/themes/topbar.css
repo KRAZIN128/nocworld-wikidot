@@ -1,16 +1,18 @@
 #top-bar {
     background: rgb(var(--topbar-bg));
     position: relative;
-    z-index: 1000;
+    z-index: 1;
     width: 100%;
     float: left;
 }
 
 #top-bar > ul {
+    display: flex;
     float: left;
     margin-bottom: 0;
     padding-left: 0;
     list-style: none;
+    align-items: center;
 }
 
 #top-bar > ul > li {
@@ -35,15 +37,6 @@
 #top-bar > ul > li > span:hover,
 #top-bar > ul > li > a:hover {
     background: rgb(var(--topbar-hover-bg));
-}
-
-#top-bar > ul > li.dropdown > span::after,
-#top-bar > ul > li.dropdown > a::after {
-    content: '\f0d7';
-    font-family: 'FontAwesome';
-    margin-left: 6px;
-    font-size: 12px;
-    opacity: 0.6;
 }
 
 #top-bar > ul > li > ul {
