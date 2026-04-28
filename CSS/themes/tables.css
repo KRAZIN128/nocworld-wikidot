@@ -19,7 +19,7 @@ table.wiki-content-table th {
     text-align: center;
 }
 
-table.wiki-content-table a { color: rgb(var(--text-white)); }
+table.wiki-content-table th a { color: rgb(var(--text-white)); }
 
 table.wiki-content-table td {
     background: rgb(var(--bg-content));
