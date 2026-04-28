@@ -1,13 +1,4 @@
-.page-rate-widget-box .rate-points {
-    background: none;
-    font-size: 0;
-}
-.page-rate-widget-box .rate-points .number {
-    font-size: 14px;
-    color: rgb(var(--text-main));
-    border: 1px solid rgb(var(--border-light));
-    padding: 6px 12px;
-}
+.page-rate-widget-box .btn { all: unset; }
 .page-rate-widget-box .btn a {
     font-size: 0;
     color: rgb(var(--text-main));
