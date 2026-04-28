@@ -55,12 +55,11 @@
     width: 1px;
 }
 
-#edit-page-form > .buttons > button,
-#edit-page-form > .buttons > input {
-    background: linear-gradient(to bottom, #f5f5f5, #ddd);
+.btn {
+	background: linear-gradient(to bottom, #f5f5f5, #ddd);
     border: 1px solid #aaa;
     border-bottom-width: 3px;
-    color: #222;
+	color: #222;
     font-weight: bold;
     border-radius: 4px;
     padding: 6px 16px;
@@ -70,8 +69,7 @@
     transition: all 0.05s linear;
 }
 
-#edit-page-form > .buttons > button:active,
-#edit-page-form > .buttons > input:active {
+.btn:active {
     border-bottom-width: 1px;
     transform: translateY(2px);
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
