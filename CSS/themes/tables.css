@@ -1,4 +1,4 @@
-table.wiki-content-table {
+table.wiki-content-table, table.infobox {
     margin-bottom: 20px;
     width: 100%;
     border-collapse: collapse;
@@ -6,25 +6,43 @@ table.wiki-content-table {
 }
 
 table.wiki-content-table th,
+.infobox-label,
+.infobox-header,
 table.wiki-content-table td {
     border: 1px solid rgb(var(--table-border-color));
     padding: 8px;
     vertical-align: top;
 }
 
-table.wiki-content-table th {
+table.wiki-content-table th,
+.infobox-label,
+.infobox-header {
     background: rgb(var(--bg-table-header));
     color: rgb(var(--text-white));
     font-weight: bold;
     text-align: center;
 }
 
-table.wiki-content-table th a { color: rgb(var(--text-white)); }
+:is(
+	table.wiki-content-table th, 
+	.infobox-label,
+	.infobox-header
+) a {
+    color: rgb(var(--text-white));
+}
 
-table.wiki-content-table td {
+table.wiki-content-table td, .infobox-data {
     background: rgb(var(--bg-content));
 }
 
-table.wiki-content-table tr:hover td {
+table.wiki-content-table tr:hover td, tr:hover .infobox-data {
     background-color: rgba(var(--bg-table-row-hover));
+}
+
+@media screen and (min-width: 770px) {
+    table.infobox {
+        float: right;
+        width: 40%;
+        max-width: 40%;
+    }
 }
