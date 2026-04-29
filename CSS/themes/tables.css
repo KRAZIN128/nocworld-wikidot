@@ -39,6 +39,8 @@ table.wiki-content-table tr:hover td, tr:hover .infobox-data {
     background-color: rgba(var(--bg-table-row-hover));
 }
 
+table.infobox tr[class*="{$"] { display: none; }
+
 @media screen and (min-width: 770px) {
     table.infobox {
         float: right;
