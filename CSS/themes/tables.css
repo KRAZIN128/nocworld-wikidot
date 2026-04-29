@@ -40,6 +40,11 @@ table.wiki-content-table tr:hover td, tr:hover .infobox-data {
 }
 
 table.infobox tr[class*="{$"] { display: none; }
+.table-infobox .infobox-label {
+	padding: 1px;
+	text-align: left;
+	width: 40%;
+}
 
 @media screen and (min-width: 770px) {
     table.infobox {
