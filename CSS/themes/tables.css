@@ -8,6 +8,7 @@ table.wiki-content-table, table.infobox {
 table.wiki-content-table th,
 .infobox-label,
 .infobox-header,
+.infobox-data,
 table.wiki-content-table td {
     border: 1px solid rgb(var(--table-border-color));
     padding: 8px;
@@ -40,16 +41,14 @@ table.wiki-content-table tr:hover td, tr:hover .infobox-data {
 }
 
 table.infobox tr[class*="{$"] { display: none; }
-.table-infobox .infobox-label {
-	padding: 1px;
+html body table.table-infobox .infobox-label {
 	text-align: left;
-	width: 40%;
+	width: 30%;
 }
 
 @media screen and (min-width: 770px) {
     table.infobox {
         float: right;
-        width: 40%;
-        max-width: 40%;
+        max-width: 30%;
     }
 }
