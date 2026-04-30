@@ -1,4 +1,4 @@
-table.wiki-content-table, table.infobox {
+ table.wiki-content-table, table.infobox {
     margin-bottom: 20px;
     width: 100%;
     border-collapse: collapse;
@@ -21,8 +21,8 @@ table.wiki-content-table th,
     background: rgb(var(--bg-table-header));
     color: rgb(var(--text-white));
     font-weight: bold;
-    text-align: center;
 }
+table.wiki-content-table th { text-align: center; }
 
 :is(
 	table.wiki-content-table th, 
@@ -41,10 +41,6 @@ table.wiki-content-table tr:hover td, tr:hover .infobox-data {
 }
 
 table.infobox tr[class*="{$"] { display: none; }
-html body table.table-infobox .infobox-label {
-	text-align: left;
-	width: 30%;
-}
 
 .overflow {
 	overflow-x: auto;
@@ -54,6 +50,7 @@ html body table.table-infobox .infobox-label {
 @media screen and (min-width: 770px) {
     table.infobox {
         float: right;
-        max-width: 30%;
+        max-width: 200px !important;
+		width: 200px;
     }
 }
