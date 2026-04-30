@@ -22,7 +22,7 @@ table.wiki-content-table th,
     color: rgb(var(--text-white));
     font-weight: bold;
 }
-table.wiki-content-table th { text-align: center; }
+table.wiki-content-table th, .infobox-header { text-align: center; }
 
 :is(
 	table.wiki-content-table th, 
