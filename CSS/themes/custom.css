@@ -1,3 +1,4 @@
+/* ==== 各种块 == */
 .lightblock, .lightblock-border {
     background-color: rgb(var(--bg-content));
     color: rgb(var(--text-main));
@@ -19,6 +20,39 @@
     border-left: 10px solid rgb(var(--text-white));
 }
 
+/* ==== 注音要用 ==== */
+.ruby, ruby {
+	display: inline-table;
+    text-align: center;
+    line-height: 1;
+    height: 1em;
+    vertical-align: text-bottom;
+}
+
+.rt, rt {
+    display: table-header-group;
+    font-size: 0.6em;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.rt, .ruby, rt, ruby { white-space: nowrap; }
+
+/* ==== 链接的那些个设定 ==== */
+a:hover { color: #3A3A3A; text-shadow: 1px 1px 0 #7A7A7A;}
+
+/* ==== 左右栏 ==== */
+@media screen and (min-width: 770px) {
+	.split-layout {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		gap: 2px;
+	}
+	.split-layout-left, .split-layout-right { width: 50%; }
+}
+
+/* ==== 自定义文本们 ==== */
 #rename-option-rename > div.warning-block > div.title,
 #rename-option-rename > div.warning-block > p,
 #rename-option-rename > div.warning-block > p > b,
