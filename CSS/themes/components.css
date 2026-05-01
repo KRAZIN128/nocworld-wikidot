@@ -66,3 +66,81 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 */
+
+/* ==== 目录页 ==== */
+/* ===== 1. 基础样式 ===== */
+.intro-block, .toc-block, .intro-toc {
+    background-color: rgb(var(--bg-content));
+    border: 0.1rem solid rgb(var(--bg-table-header));
+    margin: 10px;
+}
+
+/* ===== 2. 目录样式 ===== */
+.intro-toc p,
+.intro-toc p a {
+    display: flex;
+}
+
+.intro-toc p {
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.intro-toc p a {
+    width: 25%;
+    color: rgb(var(--text-white));
+    background-color: rgb(var(--bg-table-header));
+    border: rgb(var(--bg-content)) solid 0.1rem;
+    padding: 0.5rem
+    box-sizing: border-box;
+    justify-content: center;
+    align-content: center;
+    font-weight: bold;
+}
+
+/* ===== 3. 整合后的主要布局与标题样式 ===== */
+.intro-block {
+    background-color: rgb(var(--bg-content));
+    border: rgb(var(--bg-table-header)) solid 0.2rem;
+    border-top: none;
+    position: relative;
+}
+
+.intro-block p {
+    margin: 1rem;
+}
+
+/* ===== 3. 整合了 .intro-block 和 .style-block 的标题样式 ===== */
+.intro-block h4,
+.toc-block h4,
+.intro-toc h4 {
+    background-color: rgb(var(--bg-table-header));
+    color: rgb(var(--text-white));
+    padding: 0.3em 1rem 0.3em 0.5em;
+    margin: 0;
+    font-size: 1.2em;
+}
+.intro-block h4 a, .toc-block h4 a, .intro-toc h4 a { color: rgb(var(--text-white)); }
+
+/* ====== 4. 目录块 ====== */
+/* 基础列表 span（无链接） */
+.toc-block .toc-items span:not([class="M"]) {
+    display: block;
+    background-color: rgb(var(--bg-content));
+    color: rgb(var(--text-main));
+    padding: 0.5rem;
+    margin: 0 8px;
+    box-shadow: var(--shadow-md);
+    border: solid 2px rgb(var(--border-color));
+}
+
+/* ====== 子条目 ====== */
+.toc-block .toc-items li::before {
+    content: "\21B3";
+    margin: 0 2px 0 16px;
+}
+.toc-block .toc-items li { list-style: none; }
+.toc-block .toc-items ul {
+    margin-left: 0;
+    padding-left: 0;
+}
