@@ -67,7 +67,7 @@
 }
 */
 
-/* ==== 目录页 ==== */
+/* ==== 目录页 - 部分来自BACKROOMS（WIKIDOT），部分来自BACKROOMS（FANDOM） ==== */
 /* ===== 1. 基础样式 ===== */
 .intro-block, .toc-block, .intro-toc {
     background-color: rgb(var(--bg-content));
@@ -77,9 +77,7 @@
 
 /* ===== 2. 目录样式 ===== */
 .intro-toc p,
-.intro-toc p a {
-    display: flex;
-}
+.intro-toc p a { display: flex; }
 
 .intro-toc p {
     flex-wrap: wrap;
@@ -145,3 +143,130 @@
     margin-left: 0;
     padding-left: 0;
 }
+
+/* ==== TabView - 改自BLACK HIGHLIGHTER版式 ==== */
+/* ===== 全局过渡 ===== */
+#main-content .yui-navset * {
+	transition: background-color 80ms cubic-bezier(0.4, 0, 0.2, 1), color 80ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ===== 导航容器 ===== */
+#main-content .yui-navset .yui-nav,
+#main-content .yui-navset .yui-navset-top .yui-nav {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 auto;
+	box-shadow: 0 5px 0 0 rgb(var(--bg-table-header));
+	border: 0;
+	width: calc(100% - 2px);
+}
+
+
+/* ===== 通用链接 ===== */
+#main-content .yui-navset .yui-nav a,
+#main-content .yui-navset .yui-navset-top .yui-nav a {
+	border: unset !important;
+	background-image: none !important;
+	background-color: rgb(var(--bg-content));
+	color: rgb(var(--text-main));
+}
+
+#main-content .yui-navset .yui-nav a em,
+#main-content .yui-navset .yui-navset-top .yui-nav a em {
+	padding: 0.35em 0.75em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
+/* ===== 通用列表项 ===== */
+#main-content .yui-navset .yui-nav li,
+#main-content .yui-navset .yui-navset-top .yui-nav li {
+	display: flex;
+	position: relative;
+	flex-grow: 2;
+	margin: 0;
+	box-shadow: 0 0 0 1px rgb(var(--bg-table-header));
+	border-color: transparent;
+	background-color: rgb(var(--bg-content));
+	padding: 0;
+	max-width: 100%;
+}
+
+
+/* ===== 内容区 ===== */
+#main-content .yui-navset .yui-content,
+#main-content .yui-navset .yui-navset-top .yui-content { border-color: rgb(var(--border-light)); }
+
+#main-content .yui-navset .yui-content { background-color: rgba(var(--border-light), 0.1); }
+
+#main-content .yui-navset-left .yui-content { border-left-color: rgb(var(--border-light)); }
+
+
+/* ===== 通用链接悬浮 ===== */
+#main-content .yui-navset .yui-nav a:hover,
+#main-content .yui-navset .yui-nav a:focus {
+	background-color: rgba(var(--bg-table-header), 0.6) !important;
+	color: rgb(var(--text-white)) !important;
+}
+
+
+/* ===== 通用 em ===== */
+#main-content .yui-navset .yui-nav li em { border: unset !important; }
+
+
+/* ===== 链接布局 ===== */
+#main-content .yui-navset-bottom .yui-nav li a,
+#main-content .yui-navset-top .yui-nav li a,
+#main-content .yui-navset .yui-nav li a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	vertical-align: bottom;
+	width: 100%;
+}
+
+
+/* ===== 选中标签（li） ===== */
+html #main-content .yui-navset .yui-nav .selected,
+html #main-content .yui-navset .yui-navset-top .yui-nav .selected {
+	flex-grow: 2;
+	margin: 0;
+	background-color: rgb(var(--bg-table-header)) !important;
+	padding: 0;
+}
+
+
+
+/* ===== 选中标签（a）默认状态 ===== */
+html #main-content .yui-navset .yui-nav .selected a,
+html #main-content .yui-navset .yui-navset-top .yui-nav .selected a {
+	background-image: none !important;
+	background-color: rgb(var(--bg-table-header)) !important;
+	color: rgb(var(--text-white)) !important;
+	width: 100%;
+	cursor: pointer;
+}
+
+
+/* ===== 选中标签（a）悬浮 ===== */
+html #main-content .yui-navset .yui-nav .selected a:hover,
+html #main-content .yui-navset .yui-navset-top .yui-nav .selected a:hover {
+	background-color: rgb(var(--bg-table-header)) !important;
+	color: rgb(var(--text-white)) !important;
+}
+
+
+/* ===== 选中标签（a）点击/聚焦 ===== */
+html #main-content .yui-navset .yui-nav .selected a:active,
+html #main-content .yui-navset .yui-nav .selected a:focus {
+	background-color: rgb(var(--bg-table-header)) !important;
+	color: rgb(var(--text-white)) !important;
+}
+
+
+/* ===== 选中标签 em ===== */
+html #main-content .yui-navset .yui-nav .selected a em,
+html #main-content .yui-navset .yui-navset-top .yui-nav .selected a em { border: transparent !important; }
