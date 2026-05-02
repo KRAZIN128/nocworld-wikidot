@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地图渲染器 - NOC World</title>
+    <style>
+        @import url(//cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/CSS/themes/grey-white.css);
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            background-color: rgb(var(--bg-body));
+            color: rgb(var(--text-main));
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .map-wrap {
+            background-color: rgb(var(--bg-content));
+            border: 0.1rem solid rgb(var(--bg-table-header));
+            margin: 10px;
+            height: calc(100% - 20px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .map-wrap h4 {
+            background-color: rgb(var(--bg-table-header));
+            color: rgb(var(--text-white));
+            padding: 0.3em 1rem 0.3em 0.5em;
+            margin: 0;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+            cursor: default;
+        }
+        
+        .filter-toggle {
+            color: rgb(var(--text-white));
+            cursor: pointer;
+            user-select: none;
+            font-size: 1.2em;
+            line-height: 1;
+            padding: 0 4px;
+        }
+        .filter-toggle:hover {
+            opacity: 0.7;
+        }
+        
+        .map-title-text {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* 筛选面板 */
+        .filter-panel {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100vh;
+            background-color: rgb(var(--bg-content));
+            border-left: 1px solid rgb(var(--border-color));
+            z-index: 3000;
+            transition: right 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+        }
+        .filter-panel.open {
+            right: 0;
+        }
+        .filter-panel h4 {
+            padding: 12px 16px;
+            font-size: 1em;
+            flex-shrink: 0;
+        }
+        .filter-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: background-color 0.15s;
+        }
+        .filter-item:hover {
+            background-color: rgba(var(--bg-table-header), 0.05);
+        }
+        .filter-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: rgb(var(--bg-table-header));
+            flex-shrink: 0;
+        }
+        .filter-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid rgba(var(--text-main), 0.3);
+            flex-shrink: 0;
+        }
+        .filter-name {
+            flex: 1;
+            font-size: 13px;
+            user-select: none;
+        }
+        .filter-confirm-btn {
+            margin: 12px;
+            padding: 8px 16px;
+            background-color: rgba(var(--bg-content), 0.9);
+            border: 1px solid rgb(var(--border-light));
+            cursor: pointer;
+            font-size: 13px;
+            color: rgb(var(--text-main));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-radius: 2px;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .filter-confirm-btn:hover {
+            background-color: rgb(var(--bg-content));
+            border-color: rgb(var(--border-color));
+        }
+        
+        .filter-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0,0,0,0.3);
+            z-index: 2999;
+        }
+        .filter-overlay.active {
+            display: block;
+        }
+        
+        .map-content {
+            flex: 1;
+            min-height: 0;
+            position: relative;
+            background-color: rgb(var(--bg-body));
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        .leaflet-container {
+            background-color: rgb(var(--bg-body));
+        }
+        
+        /* 弹窗样式微调 */
+        .leaflet-popup-content {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .leaflet-popup-content strong {
+            font-size: 14px;
+        }
+        .leaflet-popup-content a {
+            color: rgb(var(--link-color));
+            text-decoration: none;
+        }
+        .leaflet-popup-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 筛选样式标签 */
+        #filter-style {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="map-wrap">
+    <h4>
+        <span class="filter-toggle" id="filterToggle" title="筛选分类">≡</span>
+        <span>地图</span>
+        <span class="map-title-text" id="mapTitle">加载中...</span>
+    </h4>
+    <div class="map-content">
+        <div id="map"></div>
+    </div>
+</div>
+
+<!-- 筛选面板 -->
+<div class="filter-overlay" id="filterOverlay"></div>
+<div class="filter-panel" id="filterPanel">
+    <h4>筛选分类</h4>
+    <div class="filter-list" id="filterList"></div>
+    <button class="filter-confirm-btn" id="filterConfirmBtn"><i class="fa fa-check"></i> 确认</button>
+</div>
+
+<!-- 动态筛选样式 -->
+<style id="filterStyle"></style>
+
+<script>
+    (function() {
+        // ========== 配置常量（与编辑器一致） ==========
+        const DATA_PREFIX = "https://cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/files/map/data/";
+        const INTERNAL_IMAGE_PREFIX = "https://cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/files/map/imgs/";
+        const INTERNAL_ICON_PREFIX = "https://cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/files/map/icons/";
+        const LINK_PREFIX = "https://nocworld-wiki-cn.wikidot.com/";
+        
+        // ========== 全局变量 ==========
+        let map;
+        let imageOverlay;
+        let markerLayerGroup;
+        let mapData = null;
+        let categories = [];
+        let markers = [];
+        let hiddenCategoryIds = new Set();
+        
+        // ========== 工具函数 ==========
+        function toNumId(id) {
+            return typeof id === 'string' ? parseInt(id, 10) : id;
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        function getFullUrl(url, prefix, type) {
+            if (!url || !url.trim()) return null;
+            url = url.trim();
+            if (type === 'external' || url.startsWith('http://') || url.startsWith('https://')) return url;
+            return prefix + url;
+        }
+        
+        function getMarkerColor(marker) {
+            if (marker.customColorRgb) {
+                return `rgb(${marker.customColorRgb})`;
+            }
+            const cat = categories.find(c => toNumId(c.id) === toNumId(marker.categoryId));
+            return cat ? cat.color : "#555555";
+        }
+        
+        // ========== 创建标记图标 ==========
+        function createMarkerIcon(marker) {
+            const color = getMarkerColor(marker);
+            const iconType = marker.iconType || 'none';
+            const iconUrl = marker.iconUrl;
+            const fullIconUrl = iconUrl
+                ? getFullUrl(iconUrl, INTERNAL_ICON_PREFIX, marker.iconUrlType || 'internal')
+                : null;
+            
+            if (iconType === 'iconOnly' && fullIconUrl) {
+                return L.icon({
+                    iconUrl: fullIconUrl,
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12],
+                    popupAnchor: [0, -12]
+                });
+            } else if (iconType === 'mixed' && fullIconUrl) {
+                const iconHtml =
+                    '<div style="position:relative;width:30px;height:30px;">' +
+                    '<div style="position:absolute;width:26px;height:26px;background-color:' + color +
+                    ';border:2px solid rgb(var(--bg-content));box-shadow:0 1px 3px rgba(0,0,0,0.2);border-radius:50%;top:2px;left:2px;"></div>' +
+                    '<img src="' + fullIconUrl +
+                    '" style="position:absolute;width:18px;height:18px;object-fit:contain;top:6px;left:6px;pointer-events:none;">' +
+                    '</div>';
+                return L.divIcon({ html: iconHtml, iconSize: [30, 30], className: 'mixed-icon-marker' });
+            } else {
+                const iconHtml =
+                    '<div style="background-color:' + color + ';width:24px;height:24px;border-radius:50%;border:2px solid rgb(var(--bg-content));box-shadow:0 1px 3px rgba(0,0,0,0.2);cursor:pointer;"></div>';
+                return L.divIcon({ html: iconHtml, iconSize: [24, 24], className: 'default-marker' });
+            }
+        }
+        
+        // ========== 构建弹窗内容 ==========
+        function buildPopupContent(marker) {
+            const category = categories.find(c => toNumId(c.id) === toNumId(marker.categoryId));
+            const catName = category ? category.name : "未分类";
+            const catColor = getMarkerColor(marker);
+            let descHtml = marker.desc ? marked.parse(marker.desc) : "";
+            
+            let html = '<strong>' + escapeHtml(marker.title) + '</strong>';
+            html += '<div style="font-size:10px;color:' + catColor + ';margin:3px 0;">' + escapeHtml(catName) + '</div>';
+            if (descHtml) html += '<div style="margin:6px 0;font-size:12px;">' + descHtml + '</div>';
+            
+            if (marker.linkUrl && marker.linkUrl.trim()) {
+                const fullUrl = getFullUrl(marker.linkUrl, LINK_PREFIX, 'internal');
+                const displayText = (marker.linkText && marker.linkText.trim()) ? marker.linkText : marker.linkUrl;
+                html += '<div style="margin-top:6px;"><a href="' + fullUrl + '" target="_blank" style="color:rgb(var(--link-color));text-decoration:none;font-size:12px;"><i class="fa fa-external-link"></i> ' + escapeHtml(displayText) + '</a></div>';
+            }
+            return html;
+        }
+        
+        // ========== 渲染地图 ==========
+        function renderMap() {
+            if (!mapData) return;
+            
+            const imageUrl = mapData.mapImage;
+            const imageType = mapData.mapImageType || 'internal';
+            const bounds = mapData.mapBounds || [[0, 0], [1000, 1000]];
+            
+            const fullImageUrl = getFullUrl(imageUrl, INTERNAL_IMAGE_PREFIX, imageType);
+            
+            map = L.map('map', {
+                zoomControl: true,
+                attributionControl: false
+            }).setView([500, 500], 1);
+            
+            markerLayerGroup = L.layerGroup().addTo(map);
+            
+            if (fullImageUrl) {
+                const img = new Image();
+                img.onload = function() {
+                    const actualBounds = [[0, 0], [img.width, img.height]];
+                    if (imageOverlay) map.removeLayer(imageOverlay);
+                    imageOverlay = L.imageOverlay(fullImageUrl, actualBounds).addTo(map);
+                    map.fitBounds(actualBounds);
+                    map.setMaxBounds(actualBounds);
+                };
+                img.onerror = function() {
+                    console.warn("底图加载失败: " + fullImageUrl);
+                };
+                img.src = fullImageUrl;
+            }
+            
+            markers.forEach(function(m) {
+                const icon = createMarkerIcon(m);
+                const leafletMarker = L.marker([m.y, m.x], { icon, draggable: false });
+                leafletMarker.bindPopup(buildPopupContent(m));
+                
+                // 给 DOM 元素挂 data-categoryid
+                leafletMarker.on('add', function() {
+                    const el = leafletMarker.getElement();
+                    if (el) {
+                        el.setAttribute('data-categoryid', m.categoryId);
+                        // 如果当前该分类被隐藏，立即应用
+                        if (hiddenCategoryIds.has(String(m.categoryId))) {
+                            el.style.display = 'none';
+                        }
+                    }
+                });
+                
+                leafletMarker.addTo(markerLayerGroup);
+            });
+        }
+        
+        // ========== 筛选功能 ==========
+        function renderFilterList() {
+            const container = document.getElementById('filterList');
+            container.innerHTML = '';
+            
+            categories.forEach(function(cat) {
+                const div = document.createElement('div');
+                div.className = 'filter-item';
+                div.innerHTML =
+                    '<input type="checkbox" id="filter-cat-' + cat.id + '" value="' + cat.id + '"' +
+                    (hiddenCategoryIds.has(String(cat.id)) ? ' checked' : '') + '>' +
+                    '<span class="filter-color" style="background:' + cat.color + ';"></span>' +
+                    '<label class="filter-name" for="filter-cat-' + cat.id + '">' + escapeHtml(cat.name) + '</label>';
+                container.appendChild(div);
+                
+                // 点击整行切换复选框
+                div.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'INPUT') return;
+                    const cb = div.querySelector('input[type="checkbox"]');
+                    cb.checked = !cb.checked;
+                });
+            });
+        }
+        
+        function applyFilter() {
+            const checkboxes = document.querySelectorAll('#filterList input[type="checkbox"]');
+            hiddenCategoryIds.clear();
+            
+            checkboxes.forEach(function(cb) {
+                if (cb.checked) {
+                    hiddenCategoryIds.add(cb.value);
+                }
+            });
+            
+            // 生成 CSS 规则
+            let cssRules = '';
+            if (hiddenCategoryIds.size > 0) {
+                const selectors = [];
+                hiddenCategoryIds.forEach(function(id) {
+                    selectors.push('[data-categoryid="' + id + '"]');
+                });
+                cssRules = selectors.join(', ') + ' { display: none !important; }';
+            }
+            document.getElementById('filterStyle').textContent = cssRules;
+        }
+        
+        function openFilterPanel() {
+            document.getElementById('filterPanel').classList.add('open');
+            document.getElementById('filterOverlay').classList.add('active');
+        }
+        
+        function closeFilterPanel() {
+            document.getElementById('filterPanel').classList.remove('open');
+            document.getElementById('filterOverlay').classList.remove('active');
+        }
+        
+        // ========== 加载数据 ==========
+        function loadData(jsonFileName) {
+            const url = DATA_PREFIX + jsonFileName + '.json';
+            
+            fetch(url)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    return response.json();
+                })
+                .then(function(data) {
+                    mapData = data;
+                    
+                    if (data.categories) {
+                        categories = data.categories.map(function(c) {
+                            return {
+                                id: parseInt(c.id, 10),
+                                name: c.name,
+                                color: c.color
+                            };
+                        });
+                    }
+                    
+                    if (data.markers) {
+                        markers = data.markers.map(function(m) {
+                            return {
+                                id: parseInt(m.id, 10),
+                                x: m.position[0],
+                                y: m.position[1],
+                                title: m.popup ? m.popup.title : "未命名",
+                                desc: m.popup ? m.popup.description : "",
+                                categoryId: parseInt(m.categoryId, 10),
+                                linkUrl: m.linkUrl || "",
+                                linkText: m.linkText || "",
+                                customColorHex: m.customColorHex || "#555555",
+                                customColorRgb: m.customColorRgb || "85, 85, 85",
+                                iconType: m.iconType || "none",
+                                iconUrl: m.iconUrl || "",
+                                iconUrlType: m.iconUrlType || "internal"
+                            };
+                        });
+                    }
+                    
+                    // 更新标题
+                    document.getElementById('mapTitle').textContent = jsonFileName;
+                    
+                    renderMap();
+                    renderFilterList();
+                })
+                .catch(function(err) {
+                    document.getElementById('mapTitle').textContent = '加载失败';
+                    console.error('数据加载失败:', err);
+                });
+        }
+        
+        // ========== 入口 ==========
+        function init() {
+            // 解析 URL 参数
+            var params = new URLSearchParams(window.location.search);
+            var dataParam = params.get('data');
+            
+            if (!dataParam) {
+                document.getElementById('mapTitle').textContent = '缺少 ?data= 参数';
+                return;
+            }
+            
+            // 去掉可能误传的 .json 后缀
+            var jsonFileName = dataParam.replace(/\.json$/i, '');
+            
+            loadData(jsonFileName);
+            
+            // 事件绑定
+            document.getElementById('filterToggle').addEventListener('click', openFilterPanel);
+            document.getElementById('filterOverlay').addEventListener('click', closeFilterPanel);
+            document.getElementById('filterConfirmBtn').addEventListener('click', function() {
+                applyFilter();
+                closeFilterPanel();
+            });
+        }
+        
+        // 启动
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+</script>
+</body>
+</html>

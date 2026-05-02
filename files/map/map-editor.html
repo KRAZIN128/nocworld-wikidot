@@ -1,0 +1,1253 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>地图编辑器 - NOC World</title>
+    <!-- 实际主题 CSS -->
+    <style>
+        @import url(//cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/CSS/themes/grey-white.css);
+    </style>
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Markdown 解析库 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        /* ========== 全局重置（硬边风格，少圆角） ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: rgb(var(--bg-body));
+            color: rgb(var(--text-main));
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 工具栏 */
+        .toolbar {
+            background-color: rgb(var(--bg-table-header));
+            padding: 8px 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            border-bottom: 1px solid rgb(var(--border-color));
+            flex-shrink: 0;
+        }
+        .toolbar button, .toolbar label {
+            background-color: rgba(var(--bg-content), 0.9);
+            border: 1px solid rgb(var(--border-light));
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 2px;
+        }
+        .toolbar button:hover, .toolbar label:hover {
+            background-color: rgb(var(--bg-content));
+            border-color: rgb(var(--border-color));
+            color: rgb(var(--text-main));
+        }
+        .toolbar input[type="file"] { display: none; }
+        .toolbar input[type="text"], .toolbar select {
+            background-color: rgb(var(--bg-content));
+            border: 1px solid rgb(var(--border-light));
+            padding: 6px 10px;
+            color: rgb(var(--text-main));
+            font-size: 13px;
+        }
+        .toolbar input[type="text"]:focus, .toolbar select:focus {
+            outline: none;
+            border-color: rgb(var(--border-color));
+        }
+        .separator {
+            width: 1px;
+            height: 28px;
+            background-color: rgb(var(--border-light));
+        }
+        .status {
+            font-size: 12px;
+            color: rgba(var(--text-white), 0.8);
+            margin-left: auto;
+        }
+        
+        /* 汉堡菜单按钮（手机端可见） */
+        .hamburger-btn {
+            display: none;
+            position: fixed;
+            top: 8px;
+            right: 8px;
+            z-index: 3000;
+            width: 40px;
+            height: 40px;
+            background-color: rgb(var(--bg-table-header));
+            color: rgb(var(--text-white));
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+            padding: 5px;
+            text-align: center;
+            border-radius: 2px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        .hamburger-btn:hover {
+            opacity: 0.9;
+        }
+        
+        /* 主布局 */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 地图区域 */
+        .map-container {
+            flex: 1;
+            position: relative;
+            background-color: rgb(var(--bg-body));
+            min-width: 0;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+            background-color: rgb(var(--bg-body));
+        }
+        .leaflet-container {
+            background-color: rgb(var(--bg-body));
+        }
+        
+        /* 拖拽手柄 */
+        .resize-handle {
+            width: 6px;
+            cursor: col-resize;
+            background-color: transparent;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 10;
+            transition: background-color 0.15s;
+        }
+        .resize-handle:hover,
+        .resize-handle.active {
+            background-color: rgb(var(--border-color));
+        }
+        
+        /* 侧边栏 */
+        .editor-panel {
+            width: 420px;
+            min-width: 280px;
+            max-width: 800px;
+            background-color: rgb(var(--bg-content));
+            border-left: 1px solid rgb(var(--border-light));
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        .panel-header {
+            padding: 12px 16px;
+            background-color: rgba(var(--bg-table-header), 0.1);
+            border-bottom: 1px solid rgb(var(--border-light));
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .panel-close-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: rgb(var(--text-main));
+            padding: 2px 6px;
+            line-height: 1;
+        }
+        
+        /* 移动端遮罩 */
+        .panel-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0,0,0,0.4);
+            z-index: 1999;
+        }
+        
+        /* 标记列表（硬边） */
+        .markers-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            min-height: 80px;
+            max-height: 300px;
+        }
+        .marker-item {
+            background-color: rgba(var(--bg-table-header), 0.05);
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid transparent;
+        }
+        .marker-item:hover {
+            border-color: rgb(var(--border-light));
+        }
+        .marker-item.selected {
+            border-color: rgb(var(--border-color));
+            background-color: rgba(var(--bg-table-header), 0.1);
+        }
+        .marker-header {
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .marker-color {
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(var(--text-main), 0.2);
+            flex-shrink: 0;
+        }
+        .marker-title {
+            flex: 1;
+            font-weight: 500;
+            font-size: 13px;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .marker-coord {
+            font-size: 10px;
+            color: rgba(var(--text-main), 0.5);
+            flex-shrink: 0;
+        }
+        
+        /* 编辑表单 */
+        .edit-form {
+            padding: 16px;
+            border-top: 1px solid rgb(var(--border-light));
+            border-bottom: 1px solid rgb(var(--border-light));
+        }
+        .edit-form h4 {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .edit-form label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 4px;
+            color: rgba(var(--text-main), 0.7);
+        }
+        .edit-form input, .edit-form textarea, .edit-form select {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 12px;
+            background-color: rgb(var(--bg-content));
+            border: 1px solid rgb(var(--border-light));
+            color: rgb(var(--text-main));
+            font-size: 13px;
+        }
+        .edit-form input:focus, .edit-form textarea:focus, .edit-form select:focus {
+            outline: none;
+            border-color: rgb(var(--border-color));
+        }
+        .edit-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        /* 按钮样式（少圆角） */
+        .edit-form button {
+            background-color: rgb(var(--bg-table-header));
+            border: none;
+            color: rgb(var(--text-white));
+            padding: 8px 16px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 4px;
+            border-radius: 2px;
+        }
+        .edit-form button:hover {
+            opacity: 0.9;
+        }
+        .edit-form button.delete-btn {
+            background-color: transparent;
+            color: rgb(var(--text-main));
+            border: 1px solid rgb(var(--border-light));
+            margin-top: 8px;
+        }
+        .edit-form button.delete-btn:hover {
+            background-color: rgba(178, 34, 34, 0.1);
+            border-color: rgb(178, 34, 34);
+            color: rgb(178, 34, 34);
+        }
+        
+        /* 图标自定义区块 */
+        .icon-custom-section {
+            background-color: rgba(var(--bg-table-header), 0.03);
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid rgb(var(--border-light));
+        }
+        .icon-custom-section select, .icon-custom-section input {
+            margin-bottom: 8px;
+        }
+        .icon-mode-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .icon-mode-row label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 0;
+        }
+        
+        /* 颜色预览行 */
+        .color-preview-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .color-preview-box {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgb(var(--border-color));
+            background-color: #555555;
+            flex-shrink: 0;
+        }
+        .color-preview-row input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        /* 链接行 */
+        .link-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .link-row input:first-child {
+            flex: 2;
+        }
+        .link-row input:last-child {
+            flex: 3;
+        }
+        
+        /* 分类管理 */
+        .categories-section {
+            padding: 16px;
+        }
+        .categories-section h4 {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            padding: 6px 8px;
+            background-color: rgba(var(--bg-table-header), 0.03);
+            border: 1px solid transparent;
+        }
+        .category-color {
+            width: 22px;
+            height: 22px;
+            border: 1px solid rgba(var(--text-main), 0.2);
+            flex-shrink: 0;
+        }
+        .category-name {
+            flex: 1;
+            font-size: 13px;
+        }
+        .delete-cat {
+            background: none;
+            border: none;
+            color: rgba(var(--text-main), 0.5);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px;
+        }
+        .delete-cat:hover {
+            color: rgb(178, 34, 34);
+        }
+        .add-category {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .add-category input {
+            flex: 1;
+            padding: 6px 8px;
+            background-color: rgb(var(--bg-content));
+            border: 1px solid rgb(var(--border-light));
+            border-radius: 0px;
+            font-size: 12px;
+            min-width: 0;
+        }
+        .add-category input[type="color"] {
+            width: 40px;
+            padding: 2px;
+            flex: none;
+        }
+        .add-category button {
+            background-color: rgb(var(--bg-table-header));
+            border: none;
+            color: rgb(var(--text-white));
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        
+        /* 右键菜单 */
+        .context-menu {
+            position: fixed;
+            background-color: rgb(var(--bg-content));
+            border: 1px solid rgb(var(--border-color));
+            padding: 4px 0;
+            z-index: 2000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border-radius: 0px;
+        }
+        .context-menu div {
+            padding: 6px 20px;
+            cursor: pointer;
+            font-size: 13px;
+            color: rgb(var(--text-main));
+        }
+        .context-menu div:hover {
+            background-color: rgba(var(--bg-table-header), 0.1);
+        }
+        
+        /* 滚动条 - 硬边 */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(var(--border-light), 0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(var(--border-color), 0.4); }
+        
+        /* ========== 移动端响应式 ========== */
+        @media (max-width: 768px) {
+            .hamburger-btn {
+                display: block;
+            }
+            .toolbar {
+                padding: 8px 10px;
+                gap: 6px;
+                font-size: 12px;
+            }
+            .toolbar button, .toolbar label {
+                padding: 5px 8px;
+                font-size: 11px;
+            }
+            .toolbar input[type="text"] {
+                width: 120px;
+            }
+            .separator {
+                display: none;
+            }
+            .status {
+                display: none;
+            }
+            
+            .editor-panel {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 400px;
+                height: 100vh;
+                z-index: 2500;
+                transition: right 0.25s ease;
+                box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+                overflow-y: auto;
+            }
+            .editor-panel.mobile-open {
+                right: 0;
+            }
+            .panel-close-btn {
+                display: block;
+            }
+            .panel-overlay.active {
+                display: block;
+            }
+            .resize-handle {
+                display: none;
+            }
+            .markers-list {
+                max-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="toolbar">
+    <span style="font-weight: bold; color: rgb(var(--text-white));"><i class="fa fa-map"></i> 地图编辑器</span>
+    <div class="separator"></div>
+    
+    <span style="font-size: 12px; color: rgb(var(--text-white));">底图URL:</span>
+    <select id="urlType" style="border-radius:0px;">
+        <option value="internal">内部链接</option>
+        <option value="external">外部链接</option>
+    </select>
+    <input type="text" id="imageUrlInput" placeholder="内部: 地图名.svg  外部: https://..." style="width: 260px;">
+    <button id="loadImageBtn"><i class="fa fa-image"></i> 加载底图</button>
+    
+    <div class="separator"></div>
+    
+    <button id="addMarkerBtn"><i class="fa fa-map-marker"></i> 添加标记</button>
+    <button id="exportBtn"><i class="fa fa-download"></i> 导出 JSON</button>
+    <label><i class="fa fa-upload"></i> 导入 JSON<input type="file" id="importJson" accept=".json"></label>
+    
+    <div class="status" id="status">就绪</div>
+</div>
+
+<!-- 手机端汉堡菜单按钮 -->
+<button class="hamburger-btn" id="hamburgerBtn" title="菜单">≡</button>
+
+<!-- 手机端遮罩 -->
+<div class="panel-overlay" id="panelOverlay"></div>
+
+<div class="main-container">
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+    
+    <!-- 拖拽手柄 -->
+    <div class="resize-handle" id="resizeHandle" title="拖拽调整宽度"></div>
+    
+    <div class="editor-panel" id="editorPanel">
+        <div class="panel-header">
+            <span><i class="fa fa-list"></i> 标记列表 (<span id="markerCount">0</span>)</span>
+            <button class="panel-close-btn" id="panelCloseBtn"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="markers-list" id="markersList"></div>
+        
+        <div class="edit-form">
+            <h4><i class="fa fa-edit"></i> 编辑标记</h4>
+            <input type="text" id="editTitle" placeholder="标题">
+            <textarea id="editDesc" placeholder="描述（支持 Markdown）"></textarea>
+            <select id="editCategory"></select>
+            
+            <!-- 自定义图标区块 -->
+            <div class="icon-custom-section">
+                <label><i class="fa fa-picture-o"></i> 自定义图标</label>
+                <select id="iconType" style="margin-bottom:8px;">
+                    <option value="none">无（使用分类颜色圆形）</option>
+                    <option value="mixed">混合模式（图标置于圆形内）</option>
+                    <option value="iconOnly">仅图标模式（不显示圆形）</option>
+                </select>
+                <div class="icon-mode-row">
+                    <span style="font-size:12px;">图标URL:</span>
+                    <select id="iconUrlType" style="width:auto;">
+                        <option value="internal">内部</option>
+                        <option value="external">外部</option>
+                    </select>
+                    <input type="text" id="iconUrl" placeholder="图标文件名或完整URL" style="flex:1;">
+                </div>
+                <div style="font-size:11px; color:rgba(var(--text-main),0.5);">内部链接前缀: https://cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/files/map/icons/</div>
+            </div>
+            
+            <!-- 颜色选择（HEX输入，实时预览） -->
+            <label><i class="fa fa-paint-brush"></i> 标记颜色（覆盖分类颜色）</label>
+            <div class="color-preview-row">
+                <div class="color-preview-box" id="colorPreviewBox" style="background-color:#555555;"></div>
+                <input type="text" id="markerColorHex" placeholder="#RRGGBB" value="#555555">
+            </div>
+            
+            <!-- 链接 -->
+            <label>链接 (可选)</label>
+            <div class="link-row">
+                <input type="text" id="editLinkUrl" placeholder="链接地址 (如: T.E.G.)">
+                <input type="text" id="editLinkText" placeholder="显示文本 (留空则显示URL)">
+            </div>
+            <div style="font-size: 11px; color: rgba(var(--text-main), 0.5); margin-top: -8px; margin-bottom: 12px;">
+                内部链接自动加前缀: https://nocworld-wiki-cn.wikidot.com/
+            </div>
+            
+            <button id="saveMarkerBtn"><i class="fa fa-save"></i> 保存修改</button>
+            <button id="deleteMarkerBtn" class="delete-btn"><i class="fa fa-trash"></i> 删除标记</button>
+        </div>
+        
+        <div class="categories-section">
+            <h4><i class="fa fa-tags"></i> 分类管理</h4>
+            <div id="categoriesList"></div>
+            <div class="add-category">
+                <input type="text" id="newCatName" placeholder="新分类名">
+                <input type="color" id="newCatColor" value="#555555">
+                <button id="addCategoryBtn"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== 配置常量 ==========
+    const INTERNAL_IMAGE_PREFIX = "https://cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/files/map/imgs/";
+    const INTERNAL_ICON_PREFIX = "https://cdn.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/files/map/icons/";
+    const LINK_PREFIX = "https://nocworld-wiki-cn.wikidot.com/";
+    
+    // ========== 全局变量 ==========
+    let map;
+    let imageOverlay;
+    let markers = [];
+    let categories = [{ id: 1, name: "默认", color: "#555555" }];
+    let selectedMarkerId = null;
+    let markerLayerGroup;
+    let nextId = 1;
+    let currentBounds = [[0, 0], [1000, 1000]];
+    let currentImageUrl = null;
+    
+    // ========== 辅助函数 ==========
+    function getFullImageUrl() {
+        const type = document.getElementById('urlType').value;
+        let input = document.getElementById('imageUrlInput').value.trim();
+        if (!input) return null;
+        if (type === 'internal') return INTERNAL_IMAGE_PREFIX + input;
+        return input;
+    }
+    
+    function getFullIconUrl(url, type) {
+        if (!url) return null;
+        url = url.trim();
+        if (type === 'internal') return INTERNAL_ICON_PREFIX + url;
+        if (url.startsWith('http://') || url.startsWith('https://')) return url;
+        return INTERNAL_ICON_PREFIX + url;
+    }
+    
+    function getFullLinkUrl(url) {
+        if (!url) return null;
+        url = url.trim();
+        if (url.startsWith('http://') || url.startsWith('https://')) return url;
+        return LINK_PREFIX + url;
+    }
+    
+    // 统一类型转换：确保 categoryId 以数字形式比较
+    function toNumId(id) {
+        return typeof id === 'string' ? parseInt(id, 10) : id;
+    }
+    
+    // RGB ↔ HEX 转换
+    function rgbToHex(rgb) {
+        if (!rgb) return "#555555";
+        let match = rgb.match(/(\d+),\s*(\d+),\s*(\d+)/);
+        if (match) {
+            return "#" + ((1 << 24) + (parseInt(match[1]) << 16) + (parseInt(match[2]) << 8) + parseInt(match[3])).toString(16).slice(1);
+        }
+        if (rgb.startsWith('#')) return rgb;
+        return "#555555";
+    }
+    
+    function hexToRgb(hex) {
+        let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : "85, 85, 85";
+    }
+    
+    function updateColorPreview() {
+        let hex = document.getElementById('markerColorHex').value;
+        if (!hex.startsWith('#')) hex = '#' + hex;
+        document.getElementById('colorPreviewBox').style.backgroundColor = hex;
+    }
+    
+    // 获取标记实际显示的颜色（优先个体颜色，否则分类颜色）
+    function getMarkerColor(marker) {
+        if (marker.customColorRgb) {
+            return `rgb(${marker.customColorRgb})`;
+        }
+        const cat = categories.find(c => toNumId(c.id) === toNumId(marker.categoryId));
+        return cat ? cat.color : "#555555";
+    }
+    
+    // 构建 Leaflet 图标
+    function createMarkerIcon(marker) {
+        const color = getMarkerColor(marker);
+        const iconType = marker.iconType || 'none';
+        const iconUrl = marker.iconUrl;
+        const fullIconUrl = iconUrl ? getFullIconUrl(iconUrl, marker.iconUrlType || 'internal') : null;
+        
+        if (iconType === 'iconOnly' && fullIconUrl) {
+            return L.icon({
+                iconUrl: fullIconUrl,
+                iconSize: [24, 24],
+                iconAnchor: [12, 12],
+                popupAnchor: [0, -12]
+            });
+        } else if (iconType === 'mixed' && fullIconUrl) {
+            const iconHtml = `
+                <div style="position: relative; width: 30px; height: 30px;">
+                    <div style="position: absolute; width: 26px; height: 26px; background-color: ${color}; border: 2px solid rgb(var(--bg-content)); box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-radius: 50%; top: 2px; left: 2px;"></div>
+                    <img src="${fullIconUrl}" style="position: absolute; width: 18px; height: 18px; object-fit: contain; top: 6px; left: 6px; pointer-events: none;">
+                </div>
+            `;
+            return L.divIcon({
+                html: iconHtml,
+                iconSize: [30, 30],
+                className: 'mixed-icon-marker'
+            });
+        } else {
+            const iconHtml = `<div style="background-color: ${color}; width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgb(var(--bg-content)); box-shadow: 0 1px 3px rgba(0,0,0,0.2); cursor: pointer;"></div>`;
+            return L.divIcon({ html: iconHtml, iconSize: [24, 24], className: 'default-marker' });
+        }
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function updateStatus(msg) {
+        const el = document.getElementById('status');
+        el.textContent = msg;
+        setTimeout(() => { if (el.textContent === msg) el.textContent = '就绪'; }, 2500);
+    }
+    
+    // ========== 地图初始化 ==========
+    function initMap() {
+        map = L.map('map', { zoomControl: true }).setView([500, 500], 1);
+        markerLayerGroup = L.layerGroup().addTo(map);
+        map.on('click', onMapClick);
+    }
+    
+    function onMapClick(e) {
+        addMarkerAt(e.latlng.lng, e.latlng.lat);
+    }
+    
+    // ========== 底图加载 ==========
+    function loadImage() {
+        const fullUrl = getFullImageUrl();
+        if (!fullUrl) {
+            updateStatus("请输入底图URL");
+            return;
+        }
+        if (imageOverlay) map.removeLayer(imageOverlay);
+        
+        const img = new Image();
+        img.onload = function() {
+            currentBounds = [[0, 0], [img.width, img.height]];
+            imageOverlay = L.imageOverlay(fullUrl, currentBounds).addTo(map);
+            map.fitBounds(currentBounds);
+            map.setMaxBounds(currentBounds);
+            currentImageUrl = fullUrl;
+            updateStatus(`底图已加载: ${img.width}x${img.height}`);
+        };
+        img.onerror = function() {
+            updateStatus("图片加载失败，请检查URL");
+        };
+        img.src = fullUrl;
+    }
+    
+    // ========== 标记管理 ==========
+    function addMarkerAt(x, y) {
+        const newId = nextId++;
+        const defaultCat = categories.length > 0 ? categories[0].id : null;
+        const newMarker = {
+            id: newId,
+            x: Math.round(x * 10) / 10,
+            y: Math.round(y * 10) / 10,
+            title: "新标记",
+            desc: "",
+            categoryId: defaultCat,
+            linkUrl: "",
+            linkText: "",
+            customColorHex: "#555555",
+            customColorRgb: "85, 85, 85",
+            iconType: "none",
+            iconUrl: "",
+            iconUrlType: "internal"
+        };
+        markers.push(newMarker);
+        renderMarkerOnMap(newMarker);
+        renderMarkersList();
+        selectMarker(newId);
+        updateStatus(`已添加标记 at (${newMarker.x}, ${newMarker.y})`);
+    }
+    
+    function renderMarkerOnMap(marker) {
+        const icon = createMarkerIcon(marker);
+        const leafletMarker = L.marker([marker.y, marker.x], { icon, draggable: true });
+        leafletMarker.on('dragend', function(e) {
+            const newPos = e.target.getLatLng();
+            marker.x = newPos.lng;
+            marker.y = newPos.lat;
+            renderMarkersList();
+            updateStatus(`标记 "${marker.title}" 移动到 (${marker.x.toFixed(1)}, ${marker.y.toFixed(1)})`);
+        });
+        leafletMarker.on('click', () => selectMarker(marker.id));
+        leafletMarker.on('contextmenu', (e) => {
+            L.DomEvent.stopPropagation(e);
+            showContextMenu(e.originalEvent, marker.id);
+        });
+        
+        marker._leafletMarker = leafletMarker;
+        leafletMarker.addTo(markerLayerGroup);
+        updatePopup(marker);
+    }
+    
+    function updatePopup(marker) {
+        if (!marker._leafletMarker) return;
+        const category = categories.find(c => toNumId(c.id) === toNumId(marker.categoryId));
+        const catName = category ? category.name : "未分类";
+        const catColor = getMarkerColor(marker);
+        
+        let descHtml = marker.desc ? marked.parse(marker.desc) : "";
+        
+        let popupHtml = `<strong>${escapeHtml(marker.title)}</strong>`;
+        popupHtml += `<div style="font-size: 10px; color: ${catColor}; margin: 3px 0;">${escapeHtml(catName)}</div>`;
+        if (descHtml) popupHtml += `<div style="margin: 6px 0; font-size: 12px;">${descHtml}</div>`;
+        
+        if (marker.linkUrl && marker.linkUrl.trim()) {
+            const fullUrl = getFullLinkUrl(marker.linkUrl);
+            const displayText = (marker.linkText && marker.linkText.trim()) ? marker.linkText : marker.linkUrl;
+            popupHtml += `<div style="margin-top: 6px;"><a href="${fullUrl}" target="_blank" style="color: rgb(var(--link-color)); text-decoration: none; font-size: 12px;"><i class="fa fa-external-link"></i> ${escapeHtml(displayText)}</a></div>`;
+        }
+        marker._leafletMarker.bindPopup(popupHtml);
+    }
+    
+    function rerenderAllMarkers() {
+        markerLayerGroup.clearLayers();
+        markers.forEach(m => renderMarkerOnMap(m));
+    }
+    
+    // ========== 选择/编辑 ==========
+    function selectMarker(id) {
+        selectedMarkerId = id;
+        const marker = markers.find(m => toNumId(m.id) === toNumId(id));
+        if (!marker) return;
+        
+        document.getElementById('editTitle').value = marker.title;
+        document.getElementById('editDesc').value = marker.desc;
+        document.getElementById('editLinkUrl').value = marker.linkUrl || '';
+        document.getElementById('editLinkText').value = marker.linkText || '';
+        document.getElementById('editCategory').value = marker.categoryId || '';
+        document.getElementById('iconType').value = marker.iconType || 'none';
+        document.getElementById('iconUrlType').value = marker.iconUrlType || 'internal';
+        document.getElementById('iconUrl').value = marker.iconUrl || '';
+        document.getElementById('markerColorHex').value = marker.customColorHex || '#555555';
+        updateColorPreview();
+        
+        renderMarkersList();
+        updateStatus(`已选择: ${marker.title}`);
+    }
+    
+    function saveCurrentMarker() {
+        if (selectedMarkerId === null) return;
+        const marker = markers.find(m => toNumId(m.id) === toNumId(selectedMarkerId));
+        if (!marker) return;
+        
+        marker.title = document.getElementById('editTitle').value || "未命名";
+        marker.desc = document.getElementById('editDesc').value;
+        marker.linkUrl = document.getElementById('editLinkUrl').value;
+        marker.linkText = document.getElementById('editLinkText').value;
+        marker.categoryId = document.getElementById('editCategory').value;
+        marker.iconType = document.getElementById('iconType').value;
+        marker.iconUrlType = document.getElementById('iconUrlType').value;
+        marker.iconUrl = document.getElementById('iconUrl').value;
+        
+        let hex = document.getElementById('markerColorHex').value;
+        if (!hex.startsWith('#')) hex = '#' + hex;
+        marker.customColorHex = hex;
+        marker.customColorRgb = hexToRgb(hex);
+        
+        const oldMarker = marker._leafletMarker;
+        if (oldMarker) markerLayerGroup.removeLayer(oldMarker);
+        renderMarkerOnMap(marker);
+        updatePopup(marker);
+        renderMarkersList();
+        updateStatus(`已保存: ${marker.title}`);
+    }
+    
+    function deleteCurrentMarker() {
+        if (selectedMarkerId === null) return;
+        const idx = markers.findIndex(m => toNumId(m.id) === toNumId(selectedMarkerId));
+        if (idx !== -1) {
+            if (markers[idx]._leafletMarker) markers[idx]._leafletMarker.remove();
+            markers.splice(idx, 1);
+            selectedMarkerId = null;
+            rerenderAllMarkers();
+            renderMarkersList();
+            clearForm();
+            updateStatus("已删除标记");
+        }
+    }
+    
+    function clearForm() {
+        document.getElementById('editTitle').value = '';
+        document.getElementById('editDesc').value = '';
+        document.getElementById('editLinkUrl').value = '';
+        document.getElementById('editLinkText').value = '';
+        document.getElementById('iconUrl').value = '';
+        document.getElementById('markerColorHex').value = '#555555';
+        updateColorPreview();
+    }
+    
+    // ========== 渲染列表 ==========
+    function renderMarkersList() {
+        const container = document.getElementById('markersList');
+        document.getElementById('markerCount').innerText = markers.length;
+        
+        if (markers.length === 0) {
+            container.innerHTML = '<div style="text-align: center; color: rgba(var(--text-main), 0.5); padding: 30px;">暂无标记<br>点击地图或"添加标记"</div>';
+            return;
+        }
+        
+        container.innerHTML = '';
+        markers.forEach(m => {
+            const color = getMarkerColor(m);
+            const div = document.createElement('div');
+            div.className = 'marker-item' + (toNumId(selectedMarkerId) === toNumId(m.id) ? ' selected' : '');
+            div.innerHTML = `
+                <div class="marker-header">
+                    <div class="marker-color" style="background: ${color};"></div>
+                    <div class="marker-title">${escapeHtml(m.title)}</div>
+                    <div class="marker-coord">(${Math.round(m.x)}, ${Math.round(m.y)})</div>
+                </div>
+            `;
+            div.onclick = () => selectMarker(m.id);
+            container.appendChild(div);
+        });
+    }
+    
+    // ========== 分类管理 ==========
+    function renderCategories() {
+        const container = document.getElementById('categoriesList');
+        const catSelect = document.getElementById('editCategory');
+        
+        container.innerHTML = '';
+        catSelect.innerHTML = '';
+        
+        categories.forEach(cat => {
+            const catDiv = document.createElement('div');
+            catDiv.className = 'category-item';
+            catDiv.innerHTML = `
+                <div class="category-color" style="background: ${cat.color};"></div>
+                <div class="category-name">${escapeHtml(cat.name)}</div>
+                <button class="delete-cat" data-id="${cat.id}"><i class="fa fa-times"></i></button>
+            `;
+            container.appendChild(catDiv);
+            
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = cat.name;
+            catSelect.appendChild(option);
+        });
+        
+        document.querySelectorAll('.delete-cat').forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                const id = toNumId(btn.dataset.id);
+                deleteCategory(id);
+            };
+        });
+    }
+    
+    function addCategory(name, color) {
+        if (!name.trim()) return;
+        const newId = Date.now();
+        categories.push({ id: newId, name: name.trim(), color: color });
+        renderCategories();
+        updateStatus(`已添加分类: ${name}`);
+    }
+    
+    function deleteCategory(catId) {
+        const id = toNumId(catId);
+        if (categories.length <= 1) {
+            updateStatus("至少保留一个分类");
+            return;
+        }
+        const defaultCat = categories.find(c => toNumId(c.id) !== id);
+        markers.forEach(m => {
+            if (toNumId(m.categoryId) === id) m.categoryId = defaultCat.id;
+        });
+        categories = categories.filter(c => toNumId(c.id) !== id);
+        renderCategories();
+        rerenderAllMarkers();
+        renderMarkersList();
+        updateStatus("已删除分类");
+    }
+    
+    // ========== 右键菜单 ==========
+    let contextMenuElement = null;
+    function showContextMenu(event, markerId) {
+        if (contextMenuElement) contextMenuElement.remove();
+        contextMenuElement = document.createElement('div');
+        contextMenuElement.className = 'context-menu';
+        contextMenuElement.innerHTML = `
+            <div><i class="fa fa-crosshairs"></i> 居中显示</div>
+            <div><i class="fa fa-trash"></i> 删除标记</div>
+        `;
+        document.body.appendChild(contextMenuElement);
+        contextMenuElement.style.left = event.clientX + 'px';
+        contextMenuElement.style.top = event.clientY + 'px';
+        
+        contextMenuElement.children[0].onclick = () => {
+            const marker = markers.find(m => toNumId(m.id) === toNumId(markerId));
+            if (marker) map.setView([marker.y, marker.x], Math.max(map.getZoom(), 2));
+            contextMenuElement.remove();
+        };
+        contextMenuElement.children[1].onclick = () => {
+            selectMarker(markerId);
+            deleteCurrentMarker();
+            contextMenuElement.remove();
+        };
+        
+        setTimeout(() => {
+            document.addEventListener('click', function removeMenu() {
+                if (contextMenuElement) contextMenuElement.remove();
+                document.removeEventListener('click', removeMenu);
+            });
+        }, 0);
+    }
+    
+    // ========== 生成22位纯数字序列号文件名 ==========
+    function generateSerialFilename() {
+        const now = new Date();
+        const yyyy = String(now.getFullYear());
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const hh = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        
+        const dateTimePart = yyyy + mm + dd + hh + min + ss; // 14位
+        
+        const markerCount = String(markers.length).padStart(3, '0'); // 3位
+        const catCount = String(categories.length).padStart(2, '0'); // 2位
+        
+        // 校验位：所有数字求和取个位
+        const baseStr = dateTimePart + markerCount + catCount;
+        const checksum = String(baseStr.split('').reduce((sum, d) => sum + parseInt(d, 10), 0) % 10); // 1位
+        
+        // 随机2位防重名
+        const random = String(Math.floor(Math.random() * 100)).padStart(2, '0'); // 2位
+        
+        const serial = baseStr + checksum + random; // 14 + 3 + 2 + 1 + 2 = 22位
+        return `map-data-${serial}.json`;
+    }
+    
+    // ========== 导入/导出（与Fandom格式对齐） ==========
+    function exportToJson() {
+        const exportData = {
+            mapImage: document.getElementById('imageUrlInput').value,
+            mapImageType: document.getElementById('urlType').value,
+            mapBounds: currentBounds,
+            origin: "top-left",
+            categories: categories.map(c => ({
+                id: String(c.id),
+                name: c.name,
+                color: c.color
+            })),
+            markers: markers.map(m => ({
+                id: String(m.id),
+                position: [m.x, m.y],
+                popup: {
+                    title: m.title,
+                    description: m.desc
+                },
+                linkUrl: m.linkUrl,
+                linkText: m.linkText,
+                categoryId: String(m.categoryId),
+                customColorHex: m.customColorHex,
+                customColorRgb: m.customColorRgb,
+                iconType: m.iconType,
+                iconUrl: m.iconUrl,
+                iconUrlType: m.iconUrlType
+            }))
+        };
+        
+        const jsonStr = JSON.stringify(exportData, null, 2);
+        const blob = new Blob([jsonStr], {type: 'application/json'});
+        const link = document.createElement('a');
+        link.download = generateSerialFilename();
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+        updateStatus(`已导出 ${link.download}`);
+    }
+    
+    function importJson(jsonData) {
+        try {
+            const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+            
+            if (data.categories) {
+                categories = data.categories.map(c => ({
+                    id: parseInt(c.id, 10) || Date.now(),
+                    name: c.name,
+                    color: c.color
+                }));
+            }
+            
+            if (data.markers) {
+                markers = data.markers.map(m => ({
+                    id: parseInt(m.id, 10) || nextId++,
+                    x: m.position[0],
+                    y: m.position[1],
+                    title: m.popup?.title || "未命名",
+                    desc: m.popup?.description || "",
+                    categoryId: parseInt(m.categoryId, 10) || (categories.length > 0 ? categories[0].id : 1),
+                    linkUrl: m.linkUrl || "",
+                    linkText: m.linkText || "",
+                    customColorHex: m.customColorHex || "#555555",
+                    customColorRgb: m.customColorRgb || "85, 85, 85",
+                    iconType: m.iconType || "none",
+                    iconUrl: m.iconUrl || "",
+                    iconUrlType: m.iconUrlType || "internal"
+                }));
+                nextId = Math.max(...markers.map(m => toNumId(m.id)), 0) + 1;
+            }
+            
+            if (data.mapImage) {
+                document.getElementById('urlType').value = data.mapImageType || 'internal';
+                document.getElementById('imageUrlInput').value = data.mapImage;
+                if (data.mapBounds) currentBounds = data.mapBounds;
+                loadImage();
+            }
+            
+            renderCategories();
+            rerenderAllMarkers();
+            renderMarkersList();
+            updateStatus(`已导入 ${markers.length} 个标记`);
+        } catch(e) {
+            alert("JSON 解析失败: " + e.message);
+        }
+    }
+    
+    // ========== 侧边栏拖拽调整宽度 ==========
+    function initResizeHandle() {
+        const handle = document.getElementById('resizeHandle');
+        const panel = document.getElementById('editorPanel');
+        let startX, startWidth;
+        
+        handle.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            startX = e.clientX;
+            startWidth = panel.offsetWidth;
+            handle.classList.add('active');
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+            
+            function onMouseMove(e) {
+                const delta = startX - e.clientX;
+                const newWidth = Math.min(800, Math.max(280, startWidth + delta));
+                panel.style.width = newWidth + 'px';
+            }
+            
+            function onMouseUp() {
+                handle.classList.remove('active');
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                map.invalidateSize();
+            }
+            
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+    }
+    
+    // ========== 手机端侧边栏切换 ==========
+    function initMobilePanel() {
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const panel = document.getElementById('editorPanel');
+        const overlay = document.getElementById('panelOverlay');
+        const closeBtn = document.getElementById('panelCloseBtn');
+        
+        function openPanel() {
+            panel.classList.add('mobile-open');
+            overlay.classList.add('active');
+        }
+        
+        function closePanel() {
+            panel.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        }
+        
+        hamburgerBtn.addEventListener('click', openPanel);
+        closeBtn.addEventListener('click', closePanel);
+        overlay.addEventListener('click', closePanel);
+    }
+    
+    // ========== 事件绑定 ==========
+    document.getElementById('loadImageBtn').addEventListener('click', loadImage);
+    document.getElementById('addMarkerBtn').addEventListener('click', () => {
+        const center = map.getCenter();
+        addMarkerAt(center.lng, center.lat);
+    });
+    document.getElementById('exportBtn').addEventListener('click', exportToJson);
+    document.getElementById('importJson').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (ev) => importJson(ev.target.result);
+            reader.readAsText(file);
+        }
+    });
+    document.getElementById('saveMarkerBtn').addEventListener('click', saveCurrentMarker);
+    document.getElementById('deleteMarkerBtn').addEventListener('click', deleteCurrentMarker);
+    document.getElementById('addCategoryBtn').addEventListener('click', () => {
+        const name = document.getElementById('newCatName').value;
+        const color = document.getElementById('newCatColor').value;
+        addCategory(name, color);
+        document.getElementById('newCatName').value = '';
+    });
+    document.getElementById('markerColorHex').addEventListener('input', updateColorPreview);
+    
+    // 启动
+    initMap();
+    initResizeHandle();
+    initMobilePanel();
+    renderCategories();
+    
+    // 示例标记（方便测试）
+    setTimeout(() => {
+        if (markers.length === 0) {
+            addMarkerAt(300, 300);
+            addMarkerAt(600, 500);
+            markers[0].title = "示例标记 1";
+            markers[0].desc = "这是一个**支持Markdown**的演示标记。\n- 列表项\n- 第二项";
+            markers[0].linkUrl = "T.E.G.";
+            markers[0].linkText = "T.E.G. 介绍";
+            markers[0].iconType = "mixed";
+            markers[0].iconUrl = "pin.svg";
+            markers[1].title = "示例标记 2";
+            markers[1].desc = "右键菜单可快速操作";
+            markers[1].customColorHex = "#3399ff";
+            markers[1].customColorRgb = "51, 153, 255";
+            updatePopup(markers[0]);
+            updatePopup(markers[1]);
+            rerenderAllMarkers();
+            renderMarkersList();
+            updateStatus("已添加示例标记");
+        }
+    }, 100);
+</script>
+</body>
+</html>
