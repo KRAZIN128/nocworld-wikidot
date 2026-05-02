@@ -113,7 +113,8 @@
 /* ===== 3. 整合了 .intro-block 和 .style-block 的标题样式 ===== */
 .intro-block h4,
 .toc-block h4,
-.intro-toc h4 {
+.intro-toc h4,
+#side-bar h4 {
     background-color: rgb(var(--bg-table-header));
     color: rgb(var(--text-white));
     padding: 0.3em 1rem 0.3em 0.5em;
