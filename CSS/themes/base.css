@@ -15,10 +15,13 @@ a:hover, a:focus {
     text-decoration: underline;
 }
 a.newpage {
-    color: rgb(var(--text-light));
+    color: rgb(var(--link-404));
+	text-decoration: none;
+	--link-404: 178, 34, 34;
 }
 a.newpage:hover {
-    color: rgb(var(--text-main));
+    text-decoration: underline dotted;
+	text-decoration-color: currentColor;
 }
 
 #header {
