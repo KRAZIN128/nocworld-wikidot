@@ -33,7 +33,6 @@
     width: 280px;
     height: 100%;
     background: rgb(var(--bg-sidebar));
-    padding: 20px;
     overflow-y: auto;
     transition: left 0.3s ease;
     z-index: 1;
