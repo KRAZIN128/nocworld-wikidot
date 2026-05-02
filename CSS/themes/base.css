@@ -20,8 +20,10 @@ a.newpage {
 	--link-404: 178, 34, 34;
 }
 a.newpage:hover {
+	color: rgb(var(--link-404));
     text-decoration: underline dotted;
 	text-decoration-color: currentColor;
+	text-shadow: 1px 1px 0 #7A1A1A;
 }
 
 #header {
@@ -32,6 +34,7 @@ a.newpage:hover {
     color: rgb(var(--topbar-text));
     text-align: center;
     font-weight: bold;
+	text-shadow: 1px 1px 0 #7A7A7A;
 }
 .site-title {
     text-align: center;
