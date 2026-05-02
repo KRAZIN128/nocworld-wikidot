@@ -41,15 +41,80 @@
 /* ==== 链接的那些个设定 ==== */
 a:hover { color: #3A3A3A; text-shadow: 1px 1px 0 #7A7A7A;}
 
-/* ==== 左右栏 ==== */
+/* ==== 分栏布局（ONLY DESKTOP） ==== */
 @media screen and (min-width: 770px) {
+	/* ===== 分栏容器 ===== */
 	.split-layout {
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		gap: 2px;
+		flex-wrap: nowrap;
+		gap: 5px;
 	}
-	.split-layout-left, .split-layout-right { width: 50%; }
+
+	/* ===== 左右栏位 ===== */
+	.split-layout-left {
+		order: 1;
+	}
+
+	.split-layout-right {
+		order: 2;
+	}
+
+	.split-layout-left,
+	.split-layout-right {
+		flex: 0 0 50%;
+		max-width: 50%;
+	}
+
+	/* ===== 宽度定义 ===== */
+	.split-width-10 {
+		flex: 0 0 10%;
+		max-width: 10%;
+	}
+
+	.split-width-20 {
+		flex: 0 0 20%;
+		max-width: 20%;
+	}
+
+	.split-width-30 {
+		flex: 0 0 30%;
+		max-width: 30%;
+	}
+
+	.split-width-40 {
+		flex: 0 0 40%;
+		max-width: 40%;
+	}
+
+	.split-width-50 {
+		flex: 0 0 50%;
+		max-width: 50%;
+	}
+
+	.split-width-60 {
+		flex: 0 0 60%;
+		max-width: 60%;
+	}
+
+	.split-width-70 {
+		flex: 0 0 70%;
+		max-width: 70%;
+	}
+
+	.split-width-80 {
+		flex: 0 0 80%;
+		max-width: 80%;
+	}
+
+	.split-width-90 {
+		flex: 0 0 90%;
+		max-width: 90%;
+	}
+
+	.split-width-100 {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
 }
 
 /* ==== 自定义文本们 ==== */
