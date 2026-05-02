@@ -337,7 +337,7 @@
             if (fullImageUrl) {
                 const img = new Image();
                 img.onload = function() {
-                    const actualBounds = [[0, 0], [img.width, img.height]];
+                    const actualBounds = [[0, 0], [img.height, img.width]];
                     if (imageOverlay) map.removeLayer(imageOverlay);
                     imageOverlay = L.imageOverlay(fullImageUrl, actualBounds).addTo(map);
                     map.fitBounds(actualBounds);
