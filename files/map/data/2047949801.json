@@ -1,0 +1,48 @@
+{
+  "mapImage": "map-of-noc.png",
+  "mapImageType": "internal",
+  "mapBounds": [
+    [
+      0,
+      0
+    ],
+    [
+      2472,
+      2881
+    ]
+  ],
+  "origin": "top-left",
+  "categories": [
+    {
+      "id": "1",
+      "name": "默认",
+      "color": "#555555"
+    },
+    {
+      "id": "1777821545354",
+      "name": "团体",
+      "color": "#555555"
+    }
+  ],
+  "markers": [
+    {
+      "id": "3",
+      "position": [
+        1489,
+        63.5
+      ],
+      "popup": {
+        "title": "时录者集团大本营",
+        "description": "时录者集团的心脏，存在着时录中央军、THS等重要存在。"
+      },
+      "linkUrl": "T.E.G.",
+      "linkText": "T.E.G.",
+      "categoryId": "1",
+      "customColorHex": "#555555",
+      "customColorRgb": "85, 85, 85",
+      "iconType": "none",
+      "iconUrl": "",
+      "iconUrlType": "internal"
+    }
+  ]
+}
