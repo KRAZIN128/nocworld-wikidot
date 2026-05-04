@@ -58,4 +58,9 @@ table.infobox {
         max-width: 200px !important;
 		width: 200px;
     }
+	.split-layout table.infobox {
+        float: none;
+        max-width: none !important;
+		width: auto;
+	}
 }
