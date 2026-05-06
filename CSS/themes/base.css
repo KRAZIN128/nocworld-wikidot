@@ -59,6 +59,8 @@ a.newpage:hover {
 	color: rgb(var(--text-white));
 	padding: 3px;
 	display: block;
+	width: clac(3rem + 3px);
+	max-width: clac(3rem + 3px);
 }
 
 .page-tags {
