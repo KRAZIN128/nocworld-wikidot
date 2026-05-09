@@ -5,7 +5,7 @@ body {
     font-size: 14px;
     line-height: 1.5;
 }
-
+#page-content { padding-top: 1rem; padding-bottom: 3rem; }
 a, a:link, a:visited {
     color: rgb(var(--link-color));
     text-decoration: none;
@@ -48,7 +48,6 @@ a.newpage:hover {
 #page-title {
     font-size: 2em;
     font-weight: bold;
-    margin: 0.67em 0;
     border-bottom: 2px solid rgb(var(--border-color));
 }
 
@@ -71,6 +70,10 @@ a.newpage:hover {
     border-top: 1px solid rgb(var(--bg-table-header));
     margin: 0;
     font-size: 12px;
+}
+
+@media screen and (min-width: 770px) {
+	#page-content { padding: 0 10rem; }
 }
 
 #side-bar {
