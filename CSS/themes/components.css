@@ -270,3 +270,25 @@ html #main-content .yui-navset .yui-nav .selected a:focus {
 /* ===== 选中标签 em ===== */
 html #main-content .yui-navset .yui-nav .selected a em,
 html #main-content .yui-navset .yui-navset-top .yui-nav .selected a em { border: transparent !important; }
+
+/* ==== 系统页面的列表样式 ==== */
+@media screen and (min-width: 770px) {
+	#tagged-pages-list, .all-pages-list {
+		column-count: 2;
+		column-gap: 2px;
+		padding: 0px;
+	}
+}
+
+#tagged-pages-list { counter-reset: tagged-pages; }
+
+.pages-list-item {
+    counter-increment: tagged-pages;
+    display: flex;
+    align-items: baseline;
+}
+
+.pages-list-item::before {
+    content: counter(tagged-pages) ".";
+    margin-right: 0.5em;
+}
