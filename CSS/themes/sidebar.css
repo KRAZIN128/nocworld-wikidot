@@ -41,3 +41,36 @@
 #side-bar:target .menu-panel {
     left: 0;
 }
+
+#side-bar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#side-bar ul li {
+	margin: 0;
+	padding: 0;
+	width: 50%;
+	display: flex;
+	box-sizing: border-box;
+	border: 1px solid rgb(var(--border-color))
+}
+
+#side-bar ul li a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 12px 0;
+	text-decoration: none;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+#side-bar .menu-panel { overflow-y: auto; }
+#side-bar .menu-panel .menu-content {
+	margin-bottom: 12rem;
+}
