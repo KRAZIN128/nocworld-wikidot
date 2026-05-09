@@ -16,7 +16,7 @@
     --text-dark: 40, 40, 40;
     --text-white: 255, 255, 255;
     --text-muted: 150, 150, 150;
-	--heimu-hover-text-color: var(--text-white);
+	--heimu-hover-text-color: var(--text-main);
     
     /* ========== 链接颜色 ========== */
     --link-color: 85, 85, 85;
