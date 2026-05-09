@@ -82,6 +82,39 @@
 /* ==== 链接的那些个设定 ==== */
 a:hover { color: #3A3A3A; text-shadow: 1px 1px 0 #7A7A7A;}
 
+/* ==== 黑幕文本 ==== */
+/* ===== 行内元素情况 ===== */
+.heimu,
+.heimu .rt,
+.heimu sub,
+.heimu sup,
+.heimu a,
+span.heimu {
+	background-color: rgb(var(--heimu-bg-color));
+	color: rgb(var(--heimu-bg-color));
+	transition: background-color .13s linear;
+}
+:is(.heimu,
+.heimu .rt,
+.heimu sub,
+.heimu sup,
+.heimu a,
+span.heimu):hover {
+	background-color: transparent;
+	color: rgb(var(--heimu-hover-text-color));
+}
+
+/* ===== 块级元素情况 ===== */
+div.heimu :is(rt, sub, sup, a, span, p) {
+	background-color: rgb(var(--heimu-bg-color));
+	color: rgb(var(--heimu-bg-color));
+	transition: background-color .13s linear;
+}
+div.heimu :is(rt, sub, sup, a, span, p):hover {
+	background-color: transparent;
+	color: rgb(var(--heimu-hover-text-color));
+}
+
 /* ==== 分栏布局（ONLY DESKTOP） ==== */
 @media screen and (min-width: 770px) {
 	/* ===== 分栏容器 ===== */
