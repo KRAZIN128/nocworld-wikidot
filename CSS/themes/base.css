@@ -66,20 +66,7 @@ a.newpage:hover {
     border-bottom: 2px solid rgb(var(--border-color));
 }
 
-.page-tags::before {
-	position: absolute;
-	content: "标签 \21B4";
-	margin: 8px 0 0 0;
-	background-color: rgb(var(--bg-table-header));
-	color: rgb(var(--text-white));
-	padding: 3px;
-	display: block;
-	width: clac(3rem + 3px);
-	max-width: clac(3rem + 3px);
-}
-
 .page-tags {
-	position: relative;
     display: block;
     padding: 1px 10px 0 0;
     border-top: 1px solid rgb(var(--bg-table-header));
@@ -147,3 +134,18 @@ html, body {
 	width: clac(100vw - (100vw - 100%));
 	overflow-x: hidden;
 }
+
+#login-status, #account-options { --link-color: var(--text-white); color: rgb(var(--text-white)); }
+#account-topbutton {
+    background: none;
+    border: none;
+    color: rgb(var(--text-white));
+}
+#account-topbutton:hover { text-shadow: none; color: rgb(var(--text-white)); }
+#header::before { z-index: -1; }
+#header h1, #header h2 { --link-color: var(--text-white); }
+#header h1 { top: 2px; }
+#header h2 { top: 2rem; }
+#header h2 { padding-bottom: 1.3rem; }
+
+dt { font-weight: bold; }
