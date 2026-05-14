@@ -147,5 +147,5 @@ html, body {
 #header h1 { top: 2px; }
 #header h2 { top: 2rem; }
 #header h2 { padding-bottom: 1.3rem; }
-
+#main-content { padding-top: calc(2rem + 16px); }
 dt { font-weight: bold; }
