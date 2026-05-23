@@ -1,0 +1,145 @@
+{
+  "mapImage": "map-of-noc.png",
+  "mapImageType": "internal",
+  "mapWidth": 2472,
+  "mapHeight": 2881,
+  "origin": "top-left",
+  "categories": [
+    {
+      "id": "1779534964465",
+      "name": "团体",
+      "color": "#555555"
+    },
+    {
+      "id": "1779550757993",
+      "name": "地点",
+      "color": "#ff0000"
+    },
+    {
+      "id": "1779551012591",
+      "name": "生物",
+      "color": "#00ff00"
+    },
+    {
+      "id": "1779551313826",
+      "name": "山脉",
+      "color": "#0000ff"
+    }
+  ],
+  "markers": [
+    {
+      "id": "1",
+      "position": [
+        1187.4113706862113,
+        1233.0596325145323
+      ],
+      "popup": {
+        "title": "时录者集团（T.E.G.）首都",
+        "description": "该地区是时录者集团极其核心的大本营，具有重要的战略地位。_THS委员会_、_时录中央军总部_、_其他各个重要部门及场所_均坐落于此处。"
+      },
+      "linkUrl": "T.E.G.",
+      "linkText": "",
+      "categoryId": "1779534964465",
+      "customColorHex": "#",
+      "customColorRgb": "85, 85, 85",
+      "iconType": "iconOnly",
+      "iconUrl": "https://gcore.jsdelivr.net/gh/KRAZIN128/nocworld-wikidot@main/files/page-files/t-e-g/the-octagram.svg",
+      "iconUrlType": "external"
+    },
+    {
+      "id": "3",
+      "position": [
+        716.4079347463935,
+        1380.8746644677658
+      ],
+      "popup": {
+        "title": "中北走廊",
+        "description": "链接北部西北高原的通道。"
+      },
+      "linkUrl": "",
+      "linkText": "",
+      "categoryId": "1779550757993",
+      "customColorHex": "#",
+      "customColorRgb": "85, 85, 85",
+      "iconType": "none",
+      "iconUrl": "",
+      "iconUrlType": "internal"
+    },
+    {
+      "id": "4",
+      "position": [
+        708.8659851131581,
+        1399.1739027954059
+      ],
+      "popup": {
+        "title": "分植发源地",
+        "description": "分植的发源处，北部的主要食物。"
+      },
+      "linkUrl": "organism-2",
+      "linkText": "分植",
+      "categoryId": "1779551012591",
+      "customColorHex": "#",
+      "customColorRgb": "85, 85, 85",
+      "iconType": "none",
+      "iconUrl": "",
+      "iconUrlType": "internal"
+    },
+    {
+      "id": "6",
+      "position": [
+        1315.6146848398396,
+        1028.4078742645067
+      ],
+      "popup": {
+        "title": "中南线",
+        "description": "隔绝了中部与南部的庞大山脉群。"
+      },
+      "linkUrl": "",
+      "linkText": "",
+      "categoryId": "1779551313826",
+      "customColorHex": "#555555",
+      "customColorRgb": "85, 85, 85",
+      "iconType": "none",
+      "iconUrl": "",
+      "iconUrlType": "internal"
+    },
+    {
+      "id": "7",
+      "position": [
+        1898.5225848283123,
+        1085.6326767868884
+      ],
+      "popup": {
+        "title": "中南走廊",
+        "description": "中部地区与南部地区的唯一通道，但由于此通道地势曲折，各种热量即使弥散也无法来到南方，以及南方本来就和中部和北部相比，距离Alpha根点更远，于是也就成了极寒的无人区。"
+      },
+      "linkUrl": "",
+      "linkText": "",
+      "categoryId": "1779550757993",
+      "customColorHex": "#",
+      "customColorRgb": "85, 85, 85",
+      "iconType": "none",
+      "iconUrl": "",
+      "iconUrlType": "internal"
+    },
+    {
+      "id": "8",
+      "position": [
+        1133.769973829861,
+        1864.3929698921029
+      ],
+      "popup": {
+        "title": "分界线",
+        "description": "这是T.E.G.与其他政权的分界线。"
+      },
+      "linkUrl": "",
+      "linkText": "",
+      "categoryId": "1779550757993",
+      "customColorHex": "#555555",
+      "customColorRgb": "85, 85, 85",
+      "iconType": "none",
+      "iconUrl": "",
+      "iconUrlType": "internal"
+    }
+  ]
+}
